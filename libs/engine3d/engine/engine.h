@@ -13,6 +13,8 @@
 
 #include <vector>
 
+namespace engine3d::engine {
+
 class Engine {
 public:
     Engine(int frame_width, int frame_height);
@@ -37,3 +39,5 @@ private:
 
     double is_triangle_facing_camera(triangle& tri, cv::Vec3d cam);
 };
+
+}

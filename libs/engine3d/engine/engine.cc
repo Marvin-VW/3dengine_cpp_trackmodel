@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 
+namespace engine3d::engine {
+
 #define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 
 double Engine::is_triangle_facing_camera(triangle& tri, cv::Vec3d cam) {
@@ -110,4 +112,6 @@ Engine::~Engine()
     delete vec;
     delete color;
     renderer->shutdown();
+}
+
 }

@@ -30,8 +30,7 @@ void ImageProcessing::run() {
 	cv::Mat camera_frame;
     cv::Mat engine_frame;
 
-	//engine3d::engine::
-	Engine engine(frame_width, frame_height);
+	engine3d::engine::Engine engine(frame_width, frame_height);
 
     bool running = true;
 
