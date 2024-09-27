@@ -31,7 +31,7 @@ void ImageProcessing::run() {
     cv::Mat engine_frame;
 
 	//engine3d::engine::
-	Engine engine(frame_width, frame_height, mParameterModel);
+	Engine engine(frame_width, frame_height);
 
     bool running = true;
 
@@ -42,7 +42,7 @@ void ImageProcessing::run() {
 
 		camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
 
-		engine_frame = engine.run(camera_frame);
+		engine_frame = engine.run(camera_frame, getTrackbars());
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);
 		mImageModel.setImage(QPixmap::fromImage(img));
@@ -53,5 +53,30 @@ void ImageProcessing::run() {
 
 }
 
+
+std::vector<double> ImageProcessing::getTrackbars() {
+
+    std::vector<double> trackbars = 
+    {
+        mParameterModel.getCameraSystemTranslationX(),
+        mParameterModel.getCameraSystemTranslationY(),
+        mParameterModel.getCameraSystemTranslationZ(),
+        mParameterModel.getCameraSystemRotationRoll(),
+        mParameterModel.getCameraSystemRotationPitch(),
+        mParameterModel.getCameraSystemRotationYaw(),
+        mParameterModel.getCubeSystemTranslationX(),
+        mParameterModel.getCubeSystemTranslationY(),
+        mParameterModel.getCubeSystemTranslationZ(),
+        mParameterModel.getCubeSystemRotationRoll(),
+        mParameterModel.getCubeSystemRotationPitch(),
+        mParameterModel.getCubeSystemRotationYaw(),
+        mParameterModel.getCubeSystemScale(),
+        mParameterModel.getCubeSystemNormals(),
+        mParameterModel.getCubeSystemPoints(),
+        mParameterModel.getCubeSystemFaces()
+    };
+
+    return trackbars;
+}
 
 }

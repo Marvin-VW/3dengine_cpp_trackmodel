@@ -51,8 +51,7 @@ set_target_properties(${TARGET_NAME}
 #
 # link against libs
 #
-target_link_libraries(${TARGET_NAME}
-    engine3d::ui
+target_link_libraries(${TARGET_NAME} 
     fmt::fmt
     Boost::system
     ${OpenCV_LIBS}

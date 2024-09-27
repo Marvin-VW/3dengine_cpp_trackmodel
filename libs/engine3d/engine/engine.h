@@ -15,14 +15,12 @@
 
 class Engine {
 public:
-    Engine(int frame_width, int frame_height, engine3d::ui::ParameterModel& parameterModel);
+    Engine(int frame_width, int frame_height);
     ~Engine();
 
-	cv::Mat run(cv::Mat& frame);
+	cv::Mat run(cv::Mat& frame, std::vector<double> trackbarPos);
     RenderSystem* renderer;
     CameraModel* camera;
-
-	engine3d::ui::ParameterModel& mParameterModel;
 
 private:
     Shape* shape;
@@ -37,5 +35,5 @@ private:
 
     cv::Mat engine_frame;
 
-    float is_triangle_facing_camera(triangle& tri, cv::Vec3f cam);
+    double is_triangle_facing_camera(triangle& tri, cv::Vec3d cam);
 };

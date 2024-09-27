@@ -1,7 +1,6 @@
 // Copyright (C) 2024 twyleg, Marvin-VW
 #include "camera_model.h"
 
-
 CameraModel::CameraModel(double sensorWidth, double sensorHeight, double focalLength, uint32_t resolutionX, uint32_t resolutionY, uint32_t u0, uint32_t v0) {
     this->sensorWidth = sensorWidth;
     this->sensorHeight = sensorHeight;
@@ -144,22 +143,27 @@ void CameraModel::camera_transform(const cv::Mat* matrix, triangle* tri) {
     }
 }
 
-cv::Vec3f CameraModel::getCameraVector(const cv::Mat& V_T_C) {
-    cv::Mat rotation_matrix = V_T_C(cv::Rect(0, 0, 3, 3));
+cv::Vec3d CameraModel::getCameraVector(const cv::Mat& V_T_C) {
 
-    cv::Vec3f forward_vector(-rotation_matrix.at<double>(0, 2),
-                             -rotation_matrix.at<double>(1, 2),
-                             -rotation_matrix.at<double>(2, 2));
 
-    cv::Vec3f camera_position(V_T_C.at<double>(0, 3),
+    cv::Vec3d forward_vector(-V_T_C.at<double>(0, 2),
+                             -V_T_C.at<double>(1, 2),
+                             -V_T_C.at<double>(2, 2));
+
+
+    cv::Vec3d camera_position(V_T_C.at<double>(0, 3),
                               V_T_C.at<double>(1, 3),
                               V_T_C.at<double>(2, 3));
 
     double final_vector_x = forward_vector[0] + camera_position[0];
-    double final_vector_y = forward_vector[1] + camera_position[1];
-    double final_vector_z = forward_vector[2] + camera_position[2];
+    double final_vector_y = forward_vector[1] + camera_position[2];
+    double final_vector_z = forward_vector[2] + camera_position[1];
 
-    return cv::Vec3f(final_vector_x, final_vector_y, final_vector_z);
+    cv::Vec3d camera_vector(final_vector_x, final_vector_y, final_vector_z);
+    cv::Vec3d normalized_camera_vector;
+    cv::normalize(camera_vector, normalized_camera_vector);
+
+    return camera_vector;
 }
 
 void CameraModel::resetCameraImage(cv::Mat frame) {

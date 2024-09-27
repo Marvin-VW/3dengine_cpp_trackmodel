@@ -29,6 +29,7 @@ public:
 private:
 
 	QPixmap generate_test_image(int red, int green, int blue);
+	std::vector<double> getTrackbars();
 
 };
 

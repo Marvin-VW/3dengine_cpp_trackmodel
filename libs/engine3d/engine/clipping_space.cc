@@ -11,7 +11,7 @@ ClippingSpace::ClippingSpace()
     double far = 100.0;
     create_perspective_projection_matrix(fov, aspect_ratio, near, far);
 
-    border = 0.9f;
+    border = 1.0f;
 }
 
 cv::Mat ClippingSpace::create_perspective_projection_matrix(double fov, double aspect_ratio, double near, double far) {

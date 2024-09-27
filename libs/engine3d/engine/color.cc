@@ -1,11 +1,14 @@
 // Copyright (C) 2024 Marvin-VW
 #include "color.h"
 
-double Color::intensity(cv::Vec3f light_direction, cv::Mat& normal) 
+double Color::intensity(cv::Vec3d light_direction, cv::Mat& normal) 
 {
-    cv::Vec3f normalized_light_direction;
+    cv::Vec3d normalized_light_direction;
     cv::normalize(light_direction, normalized_light_direction);
+
+    
     double intensity = normalized_light_direction.dot(normal) * (-1.0);
+    //std::cout << intensity << std::endl;
     return intensity;
 }
 

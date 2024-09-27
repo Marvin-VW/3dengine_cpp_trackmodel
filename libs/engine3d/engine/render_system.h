@@ -1,7 +1,6 @@
 // Copyright (C) 2024 Marvin-VW
 #pragma once
 
-#include "engine3d/ui/model.h"
 #include "shape.h"
 
 #include <cstdint>
@@ -19,10 +18,10 @@ class Color;
 class RenderSystem
 {
 public:
-    RenderSystem(engine3d::ui::ParameterModel& parameterModel);
+    RenderSystem();
 
 	bool release();
-    CameraModel* create_matrices();
+    CameraModel* create_matrices(std::vector<double> trackbarPos);
     HomogenousTransformationMatrix* init_matrices();
     ClippingSpace* init_clipping();
     FpsCounter* update_fps();
@@ -61,6 +60,4 @@ private:
     Vectors* v;
     Color* c;
     FpsCounter* fc;
-private:
-	engine3d::ui::ParameterModel& mParameterModel;
 };

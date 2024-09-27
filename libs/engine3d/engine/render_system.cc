@@ -12,7 +12,7 @@
 
 #define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 
-RenderSystem::RenderSystem(engine3d::ui::ParameterModel& parameterModel): mParameterModel(parameterModel) 
+RenderSystem::RenderSystem() 
 {
    
     fc = new FpsCounter(60);
@@ -49,17 +49,17 @@ Vectors* RenderSystem::init_vector()
 }
 
 
-CameraModel* RenderSystem::create_matrices()
+CameraModel* RenderSystem::create_matrices(std::vector<double> trackbarPos)
 {
 
     // Create camera to world matrix
     cm->V_T_C = ht->createHomogeneousTransformationMatrix(
-		(mParameterModel.getCameraSystemTranslationX() - 10000) / 1000.0,
-		(mParameterModel.getCameraSystemTranslationY() - 10000) / 1000.0,
-		(mParameterModel.getCameraSystemTranslationZ() - 10000) / 1000.0,
-		DEG_TO_RAD(mParameterModel.getCameraSystemRotationRoll() / 10.0),
-		DEG_TO_RAD(mParameterModel.getCameraSystemRotationPitch() / 10.0),
-		DEG_TO_RAD(mParameterModel.getCameraSystemRotationYaw() / 10.0),
+		(trackbarPos[0] - 10000) / 1000.0,
+		(trackbarPos[1] - 10000) / 1000.0,
+		(trackbarPos[2] - 10000) / 1000.0,
+		DEG_TO_RAD(trackbarPos[3] / 10.0),
+		DEG_TO_RAD(trackbarPos[4] / 10.0),
+		DEG_TO_RAD(trackbarPos[5] / 10.0),
         1.0f);
 
     // Compute inverse (world to camera matrix)
@@ -67,13 +67,13 @@ CameraModel* RenderSystem::create_matrices()
 
     // Create cube to world matrix
     cm->V_T_Cube = ht->createHomogeneousTransformationMatrix(
-		(mParameterModel.getCubeSystemTranslationX() - 10000) / 1000.0,
-		(mParameterModel.getCubeSystemTranslationY() - 10000) / 1000.0,
-		(mParameterModel.getCubeSystemTranslationZ() - 10000) / 1000.0,
-		DEG_TO_RAD(mParameterModel.getCubeSystemRotationRoll() / 10.0),
-		DEG_TO_RAD(mParameterModel.getCubeSystemRotationPitch() / 10.0),
-		DEG_TO_RAD(mParameterModel.getCubeSystemRotationYaw() / 10.0),
-		mParameterModel.getCubeSystemScale());
+		(trackbarPos[6] - 10000) / 1000.0,
+		(trackbarPos[7] - 10000) / 1000.0,
+		(trackbarPos[8] - 10000) / 1000.0,
+		DEG_TO_RAD(trackbarPos[9] / 10.0),
+		DEG_TO_RAD(trackbarPos[10] / 10.0),
+		DEG_TO_RAD(trackbarPos[11] / 10.0),
+		trackbarPos[12]);
 
     return cm;
 

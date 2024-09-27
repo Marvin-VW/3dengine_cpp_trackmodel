@@ -6,9 +6,9 @@
 
 #define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 
-float Engine::is_triangle_facing_camera(triangle& tri, cv::Vec3f cam) {
+double Engine::is_triangle_facing_camera(triangle& tri, cv::Vec3d cam) {
 
-    float dot_product =    tri.normal.at<double>(0) * (tri.centroid.at<double>(0) - cam[0]) +
+    double dot_product =    tri.normal.at<double>(0) * (tri.centroid.at<double>(0) - cam[0]) +
                            tri.normal.at<double>(1) * (tri.centroid.at<double>(1) - cam[1]) +
                            tri.normal.at<double>(2) * (tri.centroid.at<double>(2) - cam[2]);
 
@@ -16,11 +16,11 @@ float Engine::is_triangle_facing_camera(triangle& tri, cv::Vec3f cam) {
 };
 
 
-Engine::Engine(int frame_width, int frame_height, engine3d::ui::ParameterModel& parameterModel)
-	: mParameterModel(parameterModel) {
+Engine::Engine(int frame_width, int frame_height)
+{
 
     // Initialize the graphics renderer
-    renderer = new RenderSystem(parameterModel);
+    renderer = new RenderSystem();
 
     //instances of shape, camera and matrix
     shape = renderer->createCube();
@@ -36,13 +36,13 @@ Engine::Engine(int frame_width, int frame_height, engine3d::ui::ParameterModel& 
 }
 
 
-cv::Mat Engine::run(cv::Mat& frame)
+cv::Mat Engine::run(cv::Mat& frame, std::vector<double> trackbarPos)
 {
-    cv::Vec3f camera_vector_world = camera->getCameraVector(camera->V_T_C);
+    cv::Vec3d camera_vector_world = camera->getCameraVector(camera->V_T_C);
 
     camera->resetCameraImage(frame);
 
-    renderer->create_matrices();
+    renderer->create_matrices(trackbarPos);
 
     std::vector<triangle> visiable_mesh;
 
@@ -51,7 +51,7 @@ cv::Mat Engine::run(cv::Mat& frame)
         camera->world_transform(&camera->V_T_Cube, &tri);
         camera->camera_transform(&camera->C_T_V, &tri);
 
-        std::tuple<cv::Mat, cv::Mat> result = vec->normal(tri, 0.05);
+        std::tuple<cv::Mat, cv::Mat> result = vec->normal(tri, 0.05f);
 
         cv::Mat normal_start = std::get<0>(result);
         cv::Mat normal_end = std::get<1>(result);
@@ -59,13 +59,12 @@ cv::Mat Engine::run(cv::Mat& frame)
         cv::Mat normal_end_camera = camera->C_T_V * normal_end;
 
         //backface culling
-        if (is_triangle_facing_camera(tri, camera_vector_world) < 0.0f) {
+        if (is_triangle_facing_camera(tri, camera_vector_world) < 0.0) {
 
-
-            if (mParameterModel.getCubeSystemNormals() == 1)
+            if (trackbarPos[13] == 1)
                 camera->drawCameraImageArrow(normal_start_camera, normal_end_camera);
 
-            cv::Vec3f light_direction(1.0f, -0.5f, -0.8f);
+            cv::Vec3d light_direction(1.0f, -0.5f, -0.8f);
             cv::Scalar base_color(255, 248, 240);
 
             tri.ilm = color->intensity(light_direction, tri.normal);
@@ -82,12 +81,12 @@ cv::Mat Engine::run(cv::Mat& frame)
     clipped_mesh = clipping->cubeInSpace(&visiable_mesh);
 
     
-    if (mParameterModel.getCubeSystemPoints() == 1)
+    if (trackbarPos[14] == 1)
     {
         camera->drawAllPoints(&clipped_mesh);
     }
 
-    if (mParameterModel.getCubeSystemFaces() == 1)
+    if (trackbarPos[15] == 1)
     {
             camera->fillCubeFaces(&clipped_mesh);
     }

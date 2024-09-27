@@ -9,7 +9,7 @@ cv::Mat Vectors::vector(const cv::Mat& point1, const cv::Mat& point2) {
     return point2 - point1;
 }
 
-std::tuple<cv::Mat, cv::Mat> Vectors::normal(triangle& tri, float scale) {
+std::tuple<cv::Mat, cv::Mat> Vectors::normal(triangle& tri, double scale) {
 
     cv::Mat p1 = tri.world_points[0].rowRange(0, 3);
     cv::Mat p2 = tri.world_points[1].rowRange(0, 3);
@@ -23,18 +23,16 @@ std::tuple<cv::Mat, cv::Mat> Vectors::normal(triangle& tri, float scale) {
     cv::Mat normal_vector = vec1.cross(vec2);
 
     // normalize to unit length
-    float norm = cv::norm(normal_vector);
-    if (norm == 0) norm = 0.5f;
-    normal_vector /= norm;
+    cv::Mat normalized_vector;
+    cv::normalize(normal_vector, normalized_vector);
 
     cv::Mat centroid = (p1 + p2 + p3) / 3.0;
 
     tri.centroid = centroid;
+    tri.normal = normalized_vector;
 
     // scale vector
-    cv::Mat scaled_normal = normal_vector * scale;
-
-    tri.normal = scaled_normal;
+    cv::Mat scaled_normal = normalized_vector * scale;
 
     // start and end of normal vector
     cv::Mat normal_start = cv::Mat(centroid);

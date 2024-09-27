@@ -11,6 +11,6 @@ class Vectors {
 
 public:
     cv::Mat vector(const cv::Mat& point1, const cv::Mat& point2);
-    std::tuple<cv::Mat, cv::Mat> normal(triangle& tri, float scale = 0.5f);
+    std::tuple<cv::Mat, cv::Mat> normal(triangle& tri, double scale = 0.5);
 
 };
