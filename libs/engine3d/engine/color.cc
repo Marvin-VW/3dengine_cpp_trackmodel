@@ -7,7 +7,7 @@ double Color::intensity(cv::Vec3d light_direction, cv::Mat& normal)
     cv::normalize(light_direction, normalized_light_direction);
 
     
-    double intensity = normalized_light_direction.dot(normal) * (-1.0);
+    double intensity = (normalized_light_direction.dot(normal) * (-1.0))*1.0;
     //std::cout << intensity << std::endl;
     return intensity;
 }

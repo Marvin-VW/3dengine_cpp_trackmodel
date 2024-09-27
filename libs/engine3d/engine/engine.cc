@@ -33,7 +33,7 @@ Engine::Engine(int frame_width, int frame_height)
     color = renderer->init_color();
 
     //generate cube mesh
-    mesh = shape->generate_mesh(0.035, 0.035, 0.035);
+    mesh = shape->generate_mesh(1, 1, 1);
 
 }
 
@@ -66,8 +66,8 @@ cv::Mat Engine::run(cv::Mat& frame, std::vector<double> trackbarPos)
             if (trackbarPos[13] == 1)
                 camera->drawCameraImageArrow(normal_start_camera, normal_end_camera);
 
-            cv::Vec3d light_direction(1.0f, -0.5f, -0.8f);
-            cv::Scalar base_color(255, 248, 240);
+            cv::Vec3d light_direction(1.0f, 0.0f, 0.0f);
+            cv::Scalar base_color(0, 153, 255);
 
             tri.ilm = color->intensity(light_direction, tri.normal);
             tri.color = color->adjust_bgr_intensity(base_color, tri.ilm);
