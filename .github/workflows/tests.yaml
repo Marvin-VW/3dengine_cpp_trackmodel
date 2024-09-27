@@ -68,5 +68,5 @@ jobs:
         ./unit_tests
     - name: 'Run smoke-test'
       run: |
-        cd build/apps/playground_qml_live_image_viewer/
-        # ./playground_qml_live_image_viewer --version
+        cd build/apps/engine3d/
+        # ./engine3d --version
