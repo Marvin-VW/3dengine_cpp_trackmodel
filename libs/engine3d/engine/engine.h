@@ -13,6 +13,8 @@
 #include <opencv2/core.hpp>
 
 #include <vector>
+ 
+namespace HTM = playground_camera_model::homogeneous_transformation_matrix;
 
 namespace engine3d::engine {
 
@@ -28,7 +30,6 @@ public:
 
 private:
     Shape shape;
-    HomogenousTransformationMatrix matrix;
     ClippingSpace clipping;
     Vectors vector;
     Color color;
