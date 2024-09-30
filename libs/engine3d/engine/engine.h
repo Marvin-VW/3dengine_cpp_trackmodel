@@ -8,6 +8,7 @@
 #include "clipping_space.h"
 #include "vectors.h"
 #include "color.h"
+#include "fps_counter.h"
 
 #include <opencv2/core.hpp>
 
@@ -21,15 +22,17 @@ public:
     ~Engine();
 
 	cv::Mat run(cv::Mat& frame, std::vector<double> trackbarPos);
-    RenderSystem* renderer;
-    CameraModel* camera;
+    CameraModel camera;
+    RenderSystem renderer;
+
 
 private:
-    Shape* shape;
-    HomogenousTransformationMatrix* matrix;
-    ClippingSpace* clipping;
-    Vectors* vec;
-    Color* color;
+    Shape shape;
+    HomogenousTransformationMatrix matrix;
+    ClippingSpace clipping;
+    Vectors vector;
+    Color color;
+    FpsCounter fps;
 
     std::vector<triangle> mesh;
     std::vector<triangle> visible_mesh;

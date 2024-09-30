@@ -12,48 +12,36 @@
 
 #define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 
-RenderSystem::RenderSystem() 
+RenderSystem::RenderSystem(
+    CameraModel& cameraModel, 
+    Shape& Shape, 
+    HomogenousTransformationMatrix& HomogenousTransformationMatrix,
+    ClippingSpace& ClippingSpace,
+    Vectors& Vectors,
+    Color& Color,
+    FpsCounter& FpsCounter
+    )
+
+    : mCameraModel(cameraModel),
+      mShape(Shape),
+      mHomogenousTransformationMatrix(HomogenousTransformationMatrix),
+      mClippingSpace(ClippingSpace),
+      mVectors(Vectors),
+      mColor(Color),
+      mFpsCounter(FpsCounter)
 {
-   
-    fc = new FpsCounter(60);
+
+    mCameraModel.V_T_C = mHomogenousTransformationMatrix.createHomogeneousTransformationMatrix(0, 0, 0, 0, 0, 0, 0);
+    mCameraModel.C_T_V = mCameraModel.V_T_C.inv();
+    mCameraModel.V_T_Cube = mHomogenousTransformationMatrix.createHomogeneousTransformationMatrix(2, 0, 1, 0, 0, 0, 0);
 
 }
 
-HomogenousTransformationMatrix* RenderSystem::init_matrices()
-{
-    ht = new HomogenousTransformationMatrix();
-
-    cm->V_T_C = ht->createHomogeneousTransformationMatrix(0, 0, 0, 0, 0, 0, 0);
-    cm->C_T_V = cm->V_T_C.inv();
-    cm->V_T_Cube = ht->createHomogeneousTransformationMatrix(2, 0, 1, 0, 0, 0, 0);
-
-    return ht;
-}
-
-Color *RenderSystem::init_color()
-{
-    c = new Color();
-    return c;
-}
-
-ClippingSpace *RenderSystem::init_clipping()
-{
-    cs = new ClippingSpace();
-    return cs;
-}
-
-Vectors* RenderSystem::init_vector()
-{
-    v = new Vectors();
-    return v;
-}
-
-
-CameraModel* RenderSystem::create_matrices(std::vector<double> trackbarPos)
+void RenderSystem::create_matrices(std::vector<double> trackbarPos)
 {
 
     // Create camera to world matrix
-    cm->V_T_C = ht->createHomogeneousTransformationMatrix(
+    mCameraModel.V_T_C = mHomogenousTransformationMatrix.createHomogeneousTransformationMatrix(
 		(trackbarPos[0] - 10000) / 1000.0,
 		(trackbarPos[1] - 10000) / 1000.0,
 		(trackbarPos[2] - 10000) / 1000.0,
@@ -63,10 +51,10 @@ CameraModel* RenderSystem::create_matrices(std::vector<double> trackbarPos)
         1.0f);
 
     // Compute inverse (world to camera matrix)
-    cm->C_T_V = cm->V_T_C.inv();
+    mCameraModel.C_T_V = mCameraModel.V_T_C.inv();
 
     // Create cube to world matrix
-    cm->V_T_Cube = ht->createHomogeneousTransformationMatrix(
+    mCameraModel.V_T_Cube = mHomogenousTransformationMatrix.createHomogeneousTransformationMatrix(
 		(trackbarPos[6] - 10000) / 1000.0,
 		(trackbarPos[7] - 10000) / 1000.0,
 		(trackbarPos[8] - 10000) / 1000.0,
@@ -75,55 +63,16 @@ CameraModel* RenderSystem::create_matrices(std::vector<double> trackbarPos)
 		DEG_TO_RAD(trackbarPos[11] / 10.0),
 		trackbarPos[12]);
 
-    return cm;
-
 }
 
-Shape* RenderSystem::createCube() {
-
-    Shape* sp = new Shape();
-    return sp;
-
-}
-
-CameraModel* RenderSystem::createCamera(  double sensorWidth,
-                                            double sensorHeight,
-                                            double focalLength,
-                                            uint32_t resolutionX,
-                                            uint32_t resolutionY,
-                                            uint32_t u0,
-                                            uint32_t v0) 
+void RenderSystem::update_fps()
 {
-
-    cm = new CameraModel(sensorWidth, sensorHeight, focalLength, resolutionX, resolutionY, u0, v0);
-
-    renderFrame();
-
-    return cm;
+    mFpsCounter.update();
+    std::string fps_text = "FPS: " + std::to_string(static_cast<int>(mFpsCounter.get_fps_filtered()));
+    cv::putText(mCameraModel.getCameraImage(), fps_text, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 255, 0), 2);
 
 }
-
-
-FpsCounter* RenderSystem::update_fps()
-{
-    fc->update();
-    std::string fps_text = "FPS: " + std::to_string(static_cast<int>(fc->get_fps_filtered()));
-    cv::putText(cm->getCameraImage(), fps_text, cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 255, 0), 2);
-
-    return fc;
-}
-
 
 cv::Mat RenderSystem::renderFrame() {
-    return cm->getCameraImage();
-}
-
-void RenderSystem::shutdown() {
-    std::cout << "Shutting down Graphics Engine" << std::endl;
-    delete cm;
-    delete ht;
-    delete cs;
-    delete v;
-    delete c;
-    delete fc;
+    return mCameraModel.getCameraImage();
 }

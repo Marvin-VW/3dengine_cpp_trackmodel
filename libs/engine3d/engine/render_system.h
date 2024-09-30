@@ -18,33 +18,24 @@ class Color;
 class RenderSystem
 {
 public:
-    RenderSystem();
+    RenderSystem(
+    CameraModel& cameraModel, 
+    Shape& Shape, 
+    HomogenousTransformationMatrix& HomogenousTransformationMatrix,
+    ClippingSpace& ClippingSpace,
+    Vectors& Vectors,
+    Color& Color,
+    FpsCounter& FpsCounter
+    );
 
-	bool release();
-    CameraModel* create_matrices(std::vector<double> trackbarPos);
-    HomogenousTransformationMatrix* init_matrices();
-    ClippingSpace* init_clipping();
-    FpsCounter* update_fps();
-    Vectors* init_vector();
-    Color* init_color();
-
-    Shape* createCube();
-    CameraModel* createCamera(  double sensorWidth,
-                                                double sensorHeight,
-                                                double focalLength,
-                                                uint32_t resolutionX,
-                                                uint32_t resolutionY,
-                                                uint32_t u0,
-                                                uint32_t v0);
+    void create_matrices(std::vector<double> trackbarPos);
+    void update_fps();
 
     cv::Mat renderFrame();
-    bool isRunning();
-    void shutdown();
-    void update_movement(int key);
+    // void update_movement(int key);
 
 public:
-    CameraModel* cm;
-
+    CameraModel& mCameraModel;
 
 private:
     friend class Shape;
@@ -55,9 +46,10 @@ private:
 private:
     std::vector<triangle> mesh;
 private:
-    HomogenousTransformationMatrix* ht;
-    ClippingSpace * cs;
-    Vectors* v;
-    Color* c;
-    FpsCounter* fc;
+    Shape& mShape;
+    HomogenousTransformationMatrix& mHomogenousTransformationMatrix;
+    ClippingSpace& mClippingSpace;
+    Vectors& mVectors;
+    Color& mColor;
+    FpsCounter& mFpsCounter;
 };
