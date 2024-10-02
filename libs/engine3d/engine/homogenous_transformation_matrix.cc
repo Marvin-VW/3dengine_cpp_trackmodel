@@ -2,11 +2,11 @@
 #include "homogenous_transformation_matrix.h"
 
 
-namespace playground_camera_model::homogeneous_transformation_matrix {
+namespace engine3d::engine::homogeneous_transformation_matrix {
 
 namespace {
 
-cv::Mat createHomogeneousTransformationMatrix(const Matrix::Parameter& p){
+cv::Mat createHomogeneousTransformationMatrix(const Matrix::MatrixParameter& p){
 
 
 	double rotationMatrixRollData[4*4] =  {	1,	0,					0,					0,
@@ -39,7 +39,7 @@ cv::Mat createHomogeneousTransformationMatrix(const Matrix::Parameter& p){
 
 }
 
-Matrix::Matrix(const Parameter& parameter)
+Matrix::Matrix(const MatrixParameter& parameter)
 	: cv::Mat(createHomogeneousTransformationMatrix(parameter)),
 	  mParameter(parameter)
 {}

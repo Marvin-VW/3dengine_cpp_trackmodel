@@ -1,6 +1,5 @@
 // Copyright (C) 2024 Marvin-VW
 #include "render_system.h"
-#include "homogenous_transformation_matrix.h"
 #include "camera_model.h"
 #include "fps_counter.h"
 #include "clipping_space.h"
@@ -10,9 +9,7 @@
 #include <iostream>
 #include <exception>
 
-namespace HTM = playground_camera_model::homogeneous_transformation_matrix;
-
-#define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
+namespace HTM = engine3d::engine::homogeneous_transformation_matrix;;
 
 RenderSystem::RenderSystem(
     CameraModel& cameraModel, 
@@ -32,31 +29,13 @@ RenderSystem::RenderSystem(
 {
 }
 
-void RenderSystem::create_matrices(std::vector<double> trackbarPos)
+void RenderSystem::create_matrices(const HTM::Matrix::Parameter parameter)
 {
 
-	HTM::Matrix::Parameter vehicle_to_camera_parameter{
-		(trackbarPos[0]-10000)/1000.0,
-		(trackbarPos[1]-10000)/1000.0,
-		(trackbarPos[2]-10000)/1000.0,
-		DEG_TO_RAD(trackbarPos[3]/10.0),
-		DEG_TO_RAD(trackbarPos[4]/10.0),
-		DEG_TO_RAD(trackbarPos[5]/10.0)
-	};
-
-	HTM::Matrix::Parameter vehicle_to_cube_parameter{
-		(trackbarPos[6]-10000)/1000.0,
-		(trackbarPos[7]-10000)/1000.0,
-		(trackbarPos[8]-10000)/1000.0,
-		DEG_TO_RAD(trackbarPos[9]/10.0),
-		DEG_TO_RAD(trackbarPos[10]/10.0),
-		DEG_TO_RAD(trackbarPos[11]/10.0)
-	};
-
 	// Update homogeneous transformation matrices
-	mCameraModel.V_T_C = HTM::Matrix(vehicle_to_camera_parameter);
+	mCameraModel.V_T_C = HTM::Matrix(parameter.vehicle_to_camera_parameter);
 	mCameraModel.C_T_V = mCameraModel.V_T_C.inv();
-	mCameraModel.V_T_Cube = HTM::Matrix(vehicle_to_cube_parameter);
+	mCameraModel.V_T_Cube = HTM::Matrix(parameter.vehicle_to_cube_parameter);
 
 }
 

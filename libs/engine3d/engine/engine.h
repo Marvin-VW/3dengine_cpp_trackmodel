@@ -13,17 +13,17 @@
 #include <opencv2/core.hpp>
 
 #include <vector>
- 
-namespace HTM = playground_camera_model::homogeneous_transformation_matrix;
 
 namespace engine3d::engine {
+
+namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
 
 class Engine {
 public:
     Engine(int frame_width, int frame_height);
     ~Engine();
 
-	cv::Mat run(cv::Mat& frame, std::vector<double> trackbarPos);
+	cv::Mat run(cv::Mat& frame, const HTM::Matrix::Parameter parameter);
     CameraModel camera;
     RenderSystem renderer;
 

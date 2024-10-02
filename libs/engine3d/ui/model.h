@@ -56,10 +56,10 @@ public:
     ADD_PROPERTY(double, cubeSystemRotationRoll, CubeSystemRotationRoll, 0.0)
     ADD_PROPERTY(double, cubeSystemRotationPitch, CubeSystemRotationPitch, 0.0)
     ADD_PROPERTY(double, cubeSystemRotationYaw, CubeSystemRotationYaw, 250.0)
-    ADD_PROPERTY(double, cubeSystemScale, CubeSystemScale, 0.0)
-    ADD_PROPERTY(double, cubeSystemNormals, CubeSystemNormals, 0.0)
-    ADD_PROPERTY(double, cubeSystemPoints, CubeSystemPoints, 0.0)
-    ADD_PROPERTY(double, cubeSystemFaces, CubeSystemFaces, 1.0)
+    ADD_PROPERTY(int, cubeSystemScale, CubeSystemScale, 0.0)
+    ADD_PROPERTY(int, cubeSystemNormals, CubeSystemNormals, 0.0)
+    ADD_PROPERTY(int, cubeSystemPoints, CubeSystemPoints, 0.0)
+    ADD_PROPERTY(int, cubeSystemFaces, CubeSystemFaces, 0.0)
 
 
 Q_SIGNALS:
