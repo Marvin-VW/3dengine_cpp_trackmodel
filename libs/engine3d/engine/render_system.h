@@ -21,7 +21,6 @@ public:
     RenderSystem(
     CameraModel& cameraModel, 
     Shape& Shape, 
-    HomogenousTransformationMatrix& HomogenousTransformationMatrix,
     ClippingSpace& ClippingSpace,
     Vectors& Vectors,
     Color& Color,
@@ -47,7 +46,6 @@ private:
     std::vector<triangle> mesh;
 private:
     Shape& mShape;
-    HomogenousTransformationMatrix& mHomogenousTransformationMatrix;
     ClippingSpace& mClippingSpace;
     Vectors& mVectors;
     Color& mColor;

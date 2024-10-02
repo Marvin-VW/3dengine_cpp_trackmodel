@@ -21,12 +21,11 @@ double Engine::is_triangle_facing_camera(triangle& tri, cv::Vec3d cam) {
 Engine::Engine(int frame_width, int frame_height)
     : camera(0.00452, 0.00339, 0.004, frame_width, frame_height, frame_width / 2, frame_height / 2),
       shape(),
-      matrix(),
       clipping(),
       vector(),
       color(),
       fps(60),
-      renderer(camera, shape, matrix, clipping, vector, color, fps)
+      renderer(camera, shape, clipping, vector, color, fps)
 {
 
     //generate cube mesh
@@ -39,14 +38,12 @@ Engine::~Engine()
 }
 
 
-
 cv::Mat Engine::run(cv::Mat& frame, std::vector<double> trackbarPos)
 {
-    cv::Vec3d camera_vector_world = camera.getCameraVector(camera.V_T_C);
-
     camera.resetCameraImage(frame);
 
     renderer.create_matrices(trackbarPos);
+    cv::Vec3d camera_vector_world = camera.getCameraVector(camera.V_T_C);
 
     std::vector<triangle> visiable_mesh;
 
