@@ -2,10 +2,11 @@
 #pragma once
 
 #include "shape.h"
+#include "homogenous_transformation_matrix.h"
 
 #include <cstdint>
 
-
+namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
 
 class Shape;
 class CameraModel;
@@ -27,7 +28,7 @@ public:
     FpsCounter& FpsCounter
     );
 
-    void create_matrices(std::vector<double> trackbarPos);
+    void create_matrices(const HTM::Matrix::Parameter parameter);
     void update_fps();
 
     cv::Mat renderFrame();

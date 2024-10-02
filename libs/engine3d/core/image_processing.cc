@@ -8,7 +8,11 @@
 
 #include <optional>
 
+namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
+
 namespace engine3d::core {
+
+#define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 
 ImageProcessing::ImageProcessing(
 
@@ -36,12 +40,9 @@ void ImageProcessing::run() {
 
     while(running) {
 
-		// double relativ_x;
-		// double relativ_y;
-
 		camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
 
-		engine_frame = engine.run(camera_frame, getTrackbars());
+		engine_frame = engine.run(camera_frame, getParameters());
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);
 		mImageModel.setImage(QPixmap::fromImage(img));
@@ -53,29 +54,35 @@ void ImageProcessing::run() {
 }
 
 
-std::vector<double> ImageProcessing::getTrackbars() {
+ HTM::Matrix::Parameter ImageProcessing::getParameters() {
 
-    std::vector<double> trackbars = 
-    {
-        mParameterModel.getCameraSystemTranslationX(),
-        mParameterModel.getCameraSystemTranslationY(),
-        mParameterModel.getCameraSystemTranslationZ(),
-        mParameterModel.getCameraSystemRotationRoll(),
-        mParameterModel.getCameraSystemRotationPitch(),
-        mParameterModel.getCameraSystemRotationYaw(),
-        mParameterModel.getCubeSystemTranslationX(),
-        mParameterModel.getCubeSystemTranslationY(),
-        mParameterModel.getCubeSystemTranslationZ(),
-        mParameterModel.getCubeSystemRotationRoll(),
-        mParameterModel.getCubeSystemRotationPitch(),
-        mParameterModel.getCubeSystemRotationYaw(),
-        mParameterModel.getCubeSystemScale(),
-        mParameterModel.getCubeSystemNormals(),
-        mParameterModel.getCubeSystemPoints(),
-        mParameterModel.getCubeSystemFaces()
+    HTM::Matrix::Parameter parameter;
+
+	parameter.vehicle_to_camera_parameter = {
+		(mParameterModel.getCameraSystemTranslationX()-10000)/1000.0,
+		(mParameterModel.getCameraSystemTranslationY()-10000)/1000.0,
+		(mParameterModel.getCameraSystemTranslationZ()-10000)/1000.0,
+		DEG_TO_RAD(mParameterModel.getCameraSystemRotationRoll()/10.0),
+		DEG_TO_RAD(mParameterModel.getCameraSystemRotationPitch()/10.0),
+		DEG_TO_RAD(mParameterModel.getCameraSystemRotationYaw()/10.0)
+	};
+ 
+	parameter.vehicle_to_cube_parameter = {
+		(mParameterModel.getCubeSystemTranslationX()-10000)/1000.0,
+		(mParameterModel.getCubeSystemTranslationY()-10000)/1000.0,
+		(mParameterModel.getCubeSystemTranslationZ()-10000)/1000.0,
+		DEG_TO_RAD(mParameterModel.getCubeSystemRotationRoll()/10.0),
+		DEG_TO_RAD(mParameterModel.getCubeSystemRotationPitch()/10.0),
+		DEG_TO_RAD(mParameterModel.getCubeSystemRotationYaw()/10.0)
+	};
+
+    parameter.ui_parameter = {
+		static_cast<bool>(mParameterModel.getCubeSystemNormals()),
+		static_cast<bool>(mParameterModel.getCubeSystemPoints()),
+		static_cast<bool>(mParameterModel.getCubeSystemFaces())
     };
 
-    return trackbars;
+    return parameter;
 }
 
 }

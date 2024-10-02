@@ -3,13 +3,13 @@
 
 #include <opencv2/opencv.hpp>
 
-namespace playground_camera_model::homogeneous_transformation_matrix {
+namespace engine3d::engine::homogeneous_transformation_matrix {
 
 class Matrix: public cv::Mat{
 
 public:
 
-	struct Parameter {
+	struct MatrixParameter {
 		double transX;
 		double transY;
 		double transZ;
@@ -18,10 +18,24 @@ public:
 		double rotYaw;
 	};
 
-	Matrix(const Parameter&);
+	struct UIParameter {
+		bool showNormals;
+		bool showPoints;
+		bool showFaces;
+	};
+
+	struct Parameter {
+
+		MatrixParameter vehicle_to_camera_parameter;
+		MatrixParameter vehicle_to_cube_parameter;
+		UIParameter ui_parameter;
+
+	};
+
+	Matrix(const MatrixParameter&);
 	Matrix(cv::MatExpr);
 
-	Parameter mParameter;
+	MatrixParameter mParameter;
 };
 
 

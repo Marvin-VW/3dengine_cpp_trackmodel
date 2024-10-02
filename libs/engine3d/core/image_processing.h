@@ -1,9 +1,14 @@
 // Copyright (C) 2024 twyleg
 #pragma once
+
+#include "engine3d/engine/homogenous_transformation_matrix.h"
+
 #include <QThread>
 #include <QPixmap>
 
 #include <engine3d/ui/model.h>
+
+namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
 
 namespace engine3d::core {
 
@@ -29,7 +34,7 @@ public:
 private:
 
 	QPixmap generate_test_image(int red, int green, int blue);
-	std::vector<double> getTrackbars();
+	 HTM::Matrix::Parameter getParameters();
 
 };
 

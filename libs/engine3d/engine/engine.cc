@@ -4,7 +4,10 @@
 #include <cmath>
 #include <iostream>
 
+
 namespace engine3d::engine {
+
+namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
 
 #define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 
@@ -38,11 +41,11 @@ Engine::~Engine()
 }
 
 
-cv::Mat Engine::run(cv::Mat& frame, std::vector<double> trackbarPos)
+cv::Mat Engine::run(cv::Mat& frame, const HTM::Matrix::Parameter parameter)
 {
     camera.resetCameraImage(frame);
 
-    renderer.create_matrices(trackbarPos);
+    renderer.create_matrices(parameter);
     cv::Vec3d camera_vector_world = camera.getCameraVector(camera.V_T_C);
 
     std::vector<triangle> visiable_mesh;
@@ -62,7 +65,7 @@ cv::Mat Engine::run(cv::Mat& frame, std::vector<double> trackbarPos)
         //backface culling
         if (is_triangle_facing_camera(tri, camera_vector_world) < 0.0) {
 
-            if (trackbarPos[13] == 1)
+            if (parameter.ui_parameter.showNormals == 1)
                 camera.drawCameraImageArrow(normal_start_camera, normal_end_camera);
 
             cv::Vec3d light_direction(1.0f, 0.0f, 0.0f);
@@ -82,12 +85,12 @@ cv::Mat Engine::run(cv::Mat& frame, std::vector<double> trackbarPos)
     clipped_mesh = clipping.cubeInSpace(&visiable_mesh);
 
     
-    if (trackbarPos[14] == 1)
+    if (parameter.ui_parameter.showPoints == 1)
     {
         camera.drawAllPoints(&clipped_mesh);
     }
 
-    if (trackbarPos[15] == 1)
+    if (parameter.ui_parameter.showFaces == 1)
     {
             camera.fillCubeFaces(&clipped_mesh);
     }
