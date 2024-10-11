@@ -1,7 +1,7 @@
 // Copyright (C) 2024 twyleg, Marvin-VW
 #pragma once
 
-#include "shape.h"
+#include "triangle.h"
 
 #include <opencv2/opencv.hpp>
 

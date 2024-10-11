@@ -1,7 +1,7 @@
 // Copyright (C) 2024 Marvin-VW
 #pragma once
 
-#include "shape.h"
+#include "triangle.h"
 #include "homogenous_transformation_matrix.h"
 
 #include <cstdint>

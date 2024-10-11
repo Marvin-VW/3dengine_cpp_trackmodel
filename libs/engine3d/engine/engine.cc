@@ -41,8 +41,10 @@ Engine::~Engine()
 }
 
 
-cv::Mat Engine::run(cv::Mat& frame, const HTM::Matrix::Parameter parameter)
+cv::Mat Engine::run(cv::Mat& frame, std::vector<triangle> new_mesh, const HTM::Matrix::Parameter parameter)
 {
+    mesh = new_mesh;
+
     camera.resetCameraImage(frame);
 
     renderer.create_matrices(parameter);
@@ -84,7 +86,7 @@ cv::Mat Engine::run(cv::Mat& frame, const HTM::Matrix::Parameter parameter)
     std::vector<triangle> clipped_mesh;
     clipped_mesh = clipping.cubeInSpace(&visiable_mesh);
 
-    
+    camera.drawAllLines(&clipped_mesh);
     if (parameter.ui_parameter.showPoints == 1)
     {
         camera.drawAllPoints(&clipped_mesh);
@@ -94,7 +96,6 @@ cv::Mat Engine::run(cv::Mat& frame, const HTM::Matrix::Parameter parameter)
     {
             camera.fillCubeFaces(&clipped_mesh);
     }
-    camera.drawAllLines(&clipped_mesh);
     
     
     renderer.update_fps();

@@ -60,7 +60,10 @@
         "unordered_set": "cpp",
         "variant": "cpp",
         "algorithm": "cpp",
-        "exception": "cpp"
+        "exception": "cpp",
+        "memory": "cpp",
+        "print": "cpp",
+        "stack": "cpp"
     },
     "cmake.configureOnOpen": false
 }

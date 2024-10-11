@@ -1,5 +1,5 @@
 // Copyright (C) 2024 Marvin-VW
-#include "shape.h"
+#include "triangle.h"
 
 #include <opencv2/opencv.hpp>
 

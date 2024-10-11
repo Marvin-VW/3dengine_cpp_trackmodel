@@ -1,5 +1,6 @@
 // Copyright (C) 2024 twyleg
 #include "image_processing.h"
+#include "engine3d/curve_calculator/arc_algorithm.h"
 
 #include <engine3d/engine/engine.h>
 
@@ -28,13 +29,15 @@ ImageProcessing::~ImageProcessing() {}
 
 void ImageProcessing::run() {
 
-	int frame_width = 640;
-	int frame_height = 480;
+	int frame_width = 640*4;
+	int frame_height = 480*4;
 
 	cv::Mat camera_frame;
     cv::Mat engine_frame;
 
 	engine3d::engine::Engine engine(frame_width, frame_height);
+
+	engine3d::curve_calculator::Curve curve;
 
     bool running = true;
 
@@ -42,7 +45,10 @@ void ImageProcessing::run() {
 
 		camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
 
-		engine_frame = engine.run(camera_frame, getParameters());
+		curve.generate_curve(camera_frame, 0, 0, 20, 5, 3.5, 2.0, 0, 90, false, 10);
+		std::vector<triangle> mesh = curve.get_curve_mesh();
+
+		engine_frame = engine.run(camera_frame, mesh, getParameters());
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);
 		mImageModel.setImage(QPixmap::fromImage(img));
@@ -52,7 +58,6 @@ void ImageProcessing::run() {
     }
 
 }
-
 
  HTM::Matrix::Parameter ImageProcessing::getParameters() {
 

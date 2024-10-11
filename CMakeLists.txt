@@ -11,6 +11,7 @@ add_subdirectory(external/googletest/)
 add_subdirectory(libs/engine3d/core/)
 add_subdirectory(libs/engine3d/ui/)
 add_subdirectory(libs/engine3d/engine/)
+add_subdirectory(libs/engine3d/curve_calculator/)
 
 # Apps
 add_subdirectory(apps/engine3d)
