@@ -34,7 +34,7 @@ public:
 private:
 
 	QPixmap generate_test_image(int red, int green, int blue);
-	 HTM::Matrix::Parameter getParameters();
+	HTM::Matrix::Parameter getParameters();
 
 };
 

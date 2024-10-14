@@ -25,6 +25,8 @@ std::vector<cv::Point2d> Curve::subdivisionPoints(double center_x, double center
         double x = static_cast<double>(center_x + radius * cos(theta));
         double y = static_cast<double>(center_y + radius * sin(theta));
 
+        std::cout << x << " " << y << std::endl;
+
         arcPoints.push_back(cv::Point2d(x, y));
     }
     return arcPoints;
@@ -59,8 +61,8 @@ void Curve::generate_curve(cv::Mat& image, double positionX, double positionY, d
     double start_radians = DEG_TO_RAD(angle_start);
     double end_radians = DEG_TO_RAD(angle_end);
 
-    int center_x = 0;//(image.cols / 2)+positionX;
-    int center_y = 0;//(image.rows / 2)+positionY;
+    int center_x = 0+positionX;//(image.cols / 2)+positionX;
+    int center_y = 0+positionY;//(image.rows / 2)+positionY;
 
     double current_angle = start_radians;
     int step_toggle = 0;
@@ -73,8 +75,8 @@ void Curve::generate_curve(cv::Mat& image, double positionX, double positionY, d
         std::vector<cv::Point2d> arcPoints_inner;
         std::vector<cv::Point2d> arcPoints_outer;
 
-        arcPoints_inner = subdivisionPoints(center_x, center_y, -start_radians, -end_radians, radius, subdivisions);
-        arcPoints_outer = subdivisionPoints(center_x, center_y, -start_radians, -end_radians, radius+line_width, subdivisions);
+        arcPoints_inner = subdivisionPoints(center_x, center_y, start_radians, end_radians, radius, subdivisions);
+        arcPoints_outer = subdivisionPoints(center_x, center_y, start_radians, end_radians, radius+line_width, subdivisions);
 
         buildTriangle(arcPoints_inner, arcPoints_outer);
     
@@ -101,8 +103,8 @@ void Curve::generate_curve(cv::Mat& image, double positionX, double positionY, d
 
             std::vector<cv::Point2d> arcPoints_inner;
             std::vector<cv::Point2d> arcPoints_outer;
-            arcPoints_inner = subdivisionPoints(center_x, center_y, -prev_angle, -current_angle, radius, subdivisions);
-            arcPoints_outer = subdivisionPoints(center_x, center_y, -prev_angle, -current_angle, radius+line_width, subdivisions);
+            arcPoints_inner = subdivisionPoints(center_x, center_y, prev_angle, current_angle, radius, subdivisions);
+            arcPoints_outer = subdivisionPoints(center_x, center_y, prev_angle, current_angle, radius+line_width, subdivisions);
 
             if (second_step && !first_step) {
                 

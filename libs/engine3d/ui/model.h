@@ -44,6 +44,7 @@ private:
 
 public:
 
+	//engine
     ADD_PROPERTY(double, cameraSystemTranslationX, CameraSystemTranslationX, 10000.0)
     ADD_PROPERTY(double, cameraSystemTranslationY, CameraSystemTranslationY, 10000.0)
     ADD_PROPERTY(double, cameraSystemTranslationZ, CameraSystemTranslationZ, 10000.0)
@@ -52,14 +53,27 @@ public:
     ADD_PROPERTY(double, cameraSystemRotationYaw, CameraSystemRotationYaw, 2700.0)
     ADD_PROPERTY(double, cubeSystemTranslationX, CubeSystemTranslationX, 16000.0)
     ADD_PROPERTY(double, cubeSystemTranslationY, CubeSystemTranslationY, 10000.0)
-    ADD_PROPERTY(double, cubeSystemTranslationZ, CubeSystemTranslationZ, 10000.0)
+    ADD_PROPERTY(double, cubeSystemTranslationZ, CubeSystemTranslationZ, 3000.0)
     ADD_PROPERTY(double, cubeSystemRotationRoll, CubeSystemRotationRoll, 0.0)
     ADD_PROPERTY(double, cubeSystemRotationPitch, CubeSystemRotationPitch, 0.0)
-    ADD_PROPERTY(double, cubeSystemRotationYaw, CubeSystemRotationYaw, 250.0)
+    ADD_PROPERTY(double, cubeSystemRotationYaw, CubeSystemRotationYaw, 0.0)
     ADD_PROPERTY(int, cubeSystemScale, CubeSystemScale, 0.0)
     ADD_PROPERTY(int, cubeSystemNormals, CubeSystemNormals, 0.0)
     ADD_PROPERTY(int, cubeSystemPoints, CubeSystemPoints, 0.0)
     ADD_PROPERTY(int, cubeSystemFaces, CubeSystemFaces, 0.0)
+
+
+	//curve
+	ADD_PROPERTY(double, curve_radius, Curve_radius, 10.0)
+	ADD_PROPERTY(double, line_width, Line_width, 0.6)
+    ADD_PROPERTY(double, track_width, Track_width, 3.0)
+    ADD_PROPERTY(double, dashed_length, Dashed_length, 2.0)
+    ADD_PROPERTY(double, dashed_space, Dashed_space, 1.0)
+    ADD_PROPERTY(double, curved_angle_start, Curved_angle_start, 0.0)
+    ADD_PROPERTY(double, curved_angle_end, Curved_angle_end, 90.0)
+	ADD_PROPERTY(int, dashed_middle, Dashed_middle, 0.0)
+    ADD_PROPERTY(int, dashed_outer, Dashed_outer, 0.0)
+    ADD_PROPERTY(int, subdivisions, Subdivisions, 20.0)
 
 
 Q_SIGNALS:

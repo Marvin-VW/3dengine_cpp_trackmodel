@@ -15,13 +15,14 @@ RowLayout {
 
     ColumnLayout {
         Layout.fillWidth: true
-        spacing: 2 // Reduce the space between nameText and the slider
+        spacing: 2
 
         Text {
             id: nameText
             Layout.alignment: Qt.AlignCenter
             Layout.preferredWidth: parent.width * 0.6
             clip: true
+            color: "white"
         }
 
         Slider {

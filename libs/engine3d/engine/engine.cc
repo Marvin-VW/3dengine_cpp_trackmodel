@@ -86,15 +86,15 @@ cv::Mat Engine::run(cv::Mat& frame, std::vector<triangle> new_mesh, const HTM::M
     std::vector<triangle> clipped_mesh;
     clipped_mesh = clipping.cubeInSpace(&visiable_mesh);
 
-    camera.drawAllLines(&clipped_mesh);
+    camera.drawAllLines(&visiable_mesh);
     if (parameter.ui_parameter.showPoints == 1)
     {
-        camera.drawAllPoints(&clipped_mesh);
+        camera.drawAllPoints(&visiable_mesh);
     }
 
     if (parameter.ui_parameter.showFaces == 1)
     {
-            camera.fillCubeFaces(&clipped_mesh);
+            camera.fillCubeFaces(&visiable_mesh);
     }
     
     

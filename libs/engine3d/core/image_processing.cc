@@ -45,8 +45,30 @@ void ImageProcessing::run() {
 
 		camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
 
-		curve.generate_curve(camera_frame, 0, 0, 20, 5, 3.5, 2.0, 0, 90, false, 10);
+		double curve_radius = mParameterModel.getCurve_radius();
+		double line_width = mParameterModel.getLine_width();
+		double track_width = mParameterModel.getTrack_width(); 
+		double dashed_length = mParameterModel.getDashed_length();
+		double dashed_space = mParameterModel.getDashed_space();
+		double curved_angle_start = mParameterModel.getCurved_angle_start(); 
+		double curved_angle_end = mParameterModel.getCurved_angle_end();
+		bool dashed_middle = mParameterModel.getDashed_middle();
+		bool dashed_outer = mParameterModel.getDashed_outer();
+		int subdivisions = mParameterModel.getSubdivisions();
+
+		curve.generate_curve(camera_frame, 10, -5, curve_radius, line_width, dashed_length, dashed_space, curved_angle_start, curved_angle_end, dashed_outer, subdivisions);
 		std::vector<triangle> mesh = curve.get_curve_mesh();
+
+		curve.generate_curve(camera_frame, 10, -5, curve_radius-track_width, line_width, dashed_length, dashed_space, curved_angle_start, curved_angle_end, dashed_middle, subdivisions/2);
+		std::vector<triangle> mesh2 = curve.get_curve_mesh();
+
+		mesh.insert(mesh.end(), mesh2.begin(), mesh2.end());
+
+		curve.generate_curve(camera_frame, 10, -5, curve_radius-(track_width*2), line_width, dashed_length, dashed_space, curved_angle_start, curved_angle_end, dashed_outer, subdivisions);
+		std::vector<triangle> mesh3 = curve.get_curve_mesh();
+
+		mesh.insert(mesh.end(), mesh3.begin(), mesh3.end());
+
 
 		engine_frame = engine.run(camera_frame, mesh, getParameters());
 
@@ -59,7 +81,8 @@ void ImageProcessing::run() {
 
 }
 
- HTM::Matrix::Parameter ImageProcessing::getParameters() {
+
+HTM::Matrix::Parameter ImageProcessing::getParameters() {
 
     HTM::Matrix::Parameter parameter;
 

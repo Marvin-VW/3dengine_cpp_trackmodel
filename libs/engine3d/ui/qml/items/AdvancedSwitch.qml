@@ -14,6 +14,7 @@ RowLayout {
         Layout.alignment: Qt.AlignCenter
         Layout.preferredWidth: parent.width * 0.6
         clip: true
+        color: "white"
     }
 
     Switch {
