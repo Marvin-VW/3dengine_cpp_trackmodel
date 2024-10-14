@@ -1,7 +1,7 @@
 [![Build status](https://github.com/Marvin-VW/3dengine_cpp/actions/workflows/tests.yaml/badge.svg)]()
 [![GitHub latest commit](https://badgen.net/github/last-commit/Marvin-VW/3dengine_cpp)](https://GitHub.com/Marvin-VW/3dengine_cpp/commit/)
 
-# 3dengine_cpp
+# 3dengine_cpp_trackmodel
 
 Simple 3d Engine written in C++ using QT as UI.
 
