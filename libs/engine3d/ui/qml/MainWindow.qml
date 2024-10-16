@@ -358,7 +358,7 @@ ApplicationWindow
                         id: curve_radius
                         width: parent.width
                         name: "curve_radius"
-                        from: 0.1
+                        from: 0.01
                         to: 50
                         value: parameterModel.curve_radius
                         stepSize: 0.1
@@ -369,7 +369,7 @@ ApplicationWindow
                         id: track_width
                         width: parent.width
                         name: "track_width"
-                        from: 0.1
+                        from: 0.01
                         to: 20
                         value: parameterModel.track_width
                         stepSize: 0.1
@@ -380,7 +380,7 @@ ApplicationWindow
                         id: dashed_length
                         width: parent.width
                         name: "dashed_length"
-                        from: 0.1
+                        from: 0.01
                         to: 50
                         value: parameterModel.dashed_length
                         stepSize: 0.1
@@ -391,7 +391,7 @@ ApplicationWindow
                         id: dashed_space
                         width: parent.width
                         name: "dashed_space"
-                        from: 0.1
+                        from: 0.01
                         to: 50
                         value: parameterModel.dashed_space
                         stepSize: 0.1
@@ -402,7 +402,7 @@ ApplicationWindow
                         id: line_width
                         width: parent.width
                         name: "line_width"
-                        from: 0.1
+                        from: 0.01
                         to: 3
                         value: parameterModel.line_width
                         stepSize: 0.1
