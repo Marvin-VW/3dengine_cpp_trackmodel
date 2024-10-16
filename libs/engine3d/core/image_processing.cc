@@ -1,6 +1,7 @@
 // Copyright (C) 2024 twyleg, Marvin-VW
 #include "image_processing.h"
 #include "engine3d/curve_calculator/generator.cc"
+#include "engine3d/straight_calculator/generator.cc"
 
 #include <engine3d/engine/engine.h>
 
@@ -8,6 +9,7 @@
 #include <fmt/core.h>
 
 #include <optional>
+#include <iostream>
 
 namespace engine_parameter = engine3d::engine::parameter;
 namespace curve_parameter = engine3d::curve_calculator::parameter;
@@ -48,8 +50,20 @@ void ImageProcessing::run() {
 
 		getCurveParameters();
 		getEngineParameters();
+		getStraightParameters();
 
-		mesh = generateTrack(curve_parameter);
+		if (mParameterModel.getShowStraight()) {
+			mesh = generateStraightTrack(straight_parameter);
+		}
+
+		if (mParameterModel.getShowCurve()) {
+			mesh = generateTrack(curve_parameter);
+		}
+
+		if (!mParameterModel.getShowCurve() && !mParameterModel.getShowStraight()) {
+			mesh.clear();
+		}
+
 		engine_frame = engine.run(camera_frame, mesh, engine_parameter);
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);
@@ -57,6 +71,19 @@ void ImageProcessing::run() {
 
 		msleep(1000 / 60.0);
     }
+
+}
+
+void ImageProcessing::getStraightParameters() {
+
+	straight_parameter.length = mParameterModel.getLength();
+	straight_parameter.width = mParameterModel.getWidth();
+	straight_parameter.wantedStripeNum =  mParameterModel.getStripeNumber();
+	straight_parameter.stripeLength = mParameterModel.getStripeLength();
+	straight_parameter.lineDistance = mParameterModel.getLineDistance();
+	straight_parameter.leftLine = mParameterModel.getLeftLine();
+	straight_parameter.stripedLine = mParameterModel.getStripedLine();
+	straight_parameter.rightLine = mParameterModel.getRightLine();
 
 }
 

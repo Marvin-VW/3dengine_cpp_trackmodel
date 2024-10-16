@@ -312,7 +312,7 @@ ApplicationWindow
 
             Item {
                 width: parent.width
-                height: curveContent.visible ? 200 : 50
+                height: curveContent.visible ? 550 : 50
 
                 Rectangle {
                     width: parent.width
@@ -347,6 +347,12 @@ ApplicationWindow
                     rowSpacing: 0
                     anchors.fill : parent
                     anchors.topMargin: 50
+
+                    AdvancedSwitch {
+                        name: "showCurve"
+                        width: parent.width
+                        onValueChanged: parameterModel.showCurve = value
+                    }
 
                     AdvancedSlider {
                         id: curve_radius
@@ -452,6 +458,126 @@ ApplicationWindow
                 }
             }
 
+
+
+            Item {
+                width: parent.width
+                height: straightContent.visible ? 400 : 50
+
+                Rectangle {
+                    width: parent.width
+                    height: 50
+                    color: "#dddddd"
+                    border.color: "black"
+                    border.width: 1
+                    id: straightContentRectangle
+
+                    Text {
+                        text: "Straight System Settings"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: straightContent.visible = !straightContent.visible
+                    }
+
+                }
+
+                GridLayout {
+
+                    id: straightContent
+                    visible: false
+
+                    anchors.bottom: straightContentRectangle.bottom;
+                        
+                    columns: 1
+                    rowSpacing: 0
+                    anchors.fill : parent
+                    anchors.topMargin: 50
+
+                    AdvancedSwitch {
+                        name: "showStraight"
+                        width: parent.width
+                        onValueChanged: parameterModel.showStraight = value
+                    }
+
+                    AdvancedSlider {
+                        id: length
+                        width: parent.width
+                        name: "length"
+                        from: 0.01
+                        to: 1
+                        value: parameterModel.length
+                        stepSize: 0.01
+                        onValueChanged: parameterModel.length = value
+                    }
+
+                    AdvancedSlider {
+                        id: width
+                        width: parent.width
+                        name: "width"
+                        from: 0.01
+                        to: 1
+                        value: parameterModel.width
+                        stepSize: 0.01
+                        onValueChanged: parameterModel.width = value
+                    }
+
+                    AdvancedSlider {
+                        id: stripeNum
+                        width: parent.width
+                        name: "stripeNumber"
+                        from: 2
+                        to: 25
+                        value: parameterModel.stripeNumber
+                        stepSize: 1
+                        onValueChanged: parameterModel.stripeNumber = value
+                    }
+
+                    AdvancedSlider {
+                        id: stripeLength
+                        width: parent.width
+                        name: "stripeLength"
+                        from: 0.01
+                        to: 1
+                        value: parameterModel.stripeLength
+                        stepSize: 0.01
+                        onValueChanged: parameterModel.stripeLength = value
+                    }
+
+                    AdvancedSlider {
+                        id: lineDistance
+                        width: parent.width
+                        name: "lineDistance"
+                        from: 0.01
+                        to: 5
+                        value: parameterModel.lineDistance
+                        stepSize: 0.01
+                        onValueChanged: parameterModel.lineDistance = value
+                    }
+
+                    AdvancedSwitch {
+                        name: "leftLine"
+                        width: parent.width
+                        onValueChanged: parameterModel.leftLine = value
+                    }
+
+                    AdvancedSwitch {
+                        name: "stripedLine"
+                        width: parent.width
+                        onValueChanged: parameterModel.stripedLine = value
+                    }
+
+                    AdvancedSwitch {
+                        name: "rightLine"
+                        width: parent.width
+                        onValueChanged: parameterModel.rightLine = value
+                    }
+                }
+            }
 
         }
 

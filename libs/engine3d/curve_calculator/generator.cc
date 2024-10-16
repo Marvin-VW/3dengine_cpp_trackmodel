@@ -9,8 +9,9 @@ namespace curve_parameter = engine3d::curve_calculator::parameter;
 std::vector<triangle> generateTrack(curve_parameter::CurveParameter curve_parameter) {
 
     curve.generate_curve(
-        9, 
-        -5, 
+        0.5, 
+        -1, 
+        -0.2,
         curve_parameter.curve_radius, 
         curve_parameter.line_width, 
         curve_parameter.dashed_length, 
@@ -23,8 +24,9 @@ std::vector<triangle> generateTrack(curve_parameter::CurveParameter curve_parame
     std::vector<triangle> mesh = curve.get_curve_mesh();
 
 	curve.generate_curve(
-        9, 
-        -5, 
+        0.5, 
+        -1, 
+        -0.2,
         curve_parameter.curve_radius-curve_parameter.track_width, 
         curve_parameter.line_width, 
         curve_parameter.dashed_length, 
@@ -40,8 +42,9 @@ std::vector<triangle> generateTrack(curve_parameter::CurveParameter curve_parame
 
 
 	curve.generate_curve(
-        9, 
-        -5, 
+        0.5, 
+        -1, 
+        -0.2,
         curve_parameter.curve_radius-(curve_parameter.track_width*2), 
         curve_parameter.line_width, 
         curve_parameter.dashed_length, 

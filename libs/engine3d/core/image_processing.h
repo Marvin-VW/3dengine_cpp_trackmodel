@@ -3,6 +3,7 @@
 
 #include "engine3d/engine/parameter.h"
 #include "engine3d/curve_calculator/parameter.h"
+#include "engine3d/straight_calculator/parameter.h"
 
 #include <QThread>
 #include <QPixmap>
@@ -11,6 +12,7 @@
 
 namespace engine_parameter = engine3d::engine::parameter;
 namespace curve_parameter = engine3d::curve_calculator::parameter;
+namespace straight_parameter = engine3d::straight_calculator::parameter;
 
 namespace engine3d::core {
 
@@ -37,10 +39,12 @@ private:
 
 	engine_parameter::Parameter engine_parameter;
 	curve_parameter::CurveParameter curve_parameter;
+	straight_parameter::StraightParameter straight_parameter;
 
 	QPixmap generate_test_image(int red, int green, int blue);
 	void getEngineParameters();
 	void getCurveParameters();
+	void getStraightParameters();
 
 };
 

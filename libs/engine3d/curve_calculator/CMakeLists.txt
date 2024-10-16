@@ -17,6 +17,7 @@ find_package(OpenCV REQUIRED)
 add_library(${TARGET_NAME}
     arc_algorithm.h
     arc_algorithm.cc
+    generator.cc
 )
 
 add_library("${NAMESPACE}::${MODULE}" ALIAS ${TARGET_NAME})

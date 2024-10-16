@@ -18,21 +18,19 @@ cv::Mat createPoint(double x, double y, double z){
 	return point;
 }
 
-std::vector<cv::Point2d> Curve::subdivisionPoints(double center_x, double center_y, double startAngle, double endAngle,  double radius, int subdivisions) {
-    std::vector<cv::Point2d> arcPoints;
+std::vector<cv::Point3d> Curve::subdivisionPoints(double center_x, double center_y, double center_z, double startAngle, double endAngle,  double radius, int subdivisions) {
+    std::vector<cv::Point3d> arcPoints;
     for (int i = 0; i <= subdivisions; i++) {
         double theta = startAngle + (endAngle - startAngle) * i / subdivisions;
         double x = static_cast<double>(center_x + radius * cos(theta));
         double y = static_cast<double>(center_y + radius * sin(theta));
-
-        std::cout << x << " " << y << std::endl;
-
-        arcPoints.push_back(cv::Point2d(x, y));
+        
+        arcPoints.push_back(cv::Point3d(x, y, center_z));
     }
     return arcPoints;
 }
 
-void Curve::buildTriangle(std::vector<cv::Point2d> arcPoints_inner, std::vector<cv::Point2d> arcPoints_outer) {
+void Curve::buildTriangle(std::vector<cv::Point3d> arcPoints_inner, std::vector<cv::Point3d> arcPoints_outer) {
 
     for (size_t i = 0; i < arcPoints_inner.size() - 1; i++) {
 
@@ -40,29 +38,30 @@ void Curve::buildTriangle(std::vector<cv::Point2d> arcPoints_inner, std::vector<
         triangle bottom_triangle;
 
         //upper triangle
-        upper_triangle.point[0] = createPoint(arcPoints_outer[i].x, arcPoints_outer[i].y, 1.0);
-        upper_triangle.point[1] = createPoint(arcPoints_outer[i+1].x, arcPoints_outer[i+1].y, 1.0);
-        upper_triangle.point[2] = createPoint(arcPoints_inner[i].x, arcPoints_inner[i].y, 1.0);
+        upper_triangle.point[0] = createPoint(arcPoints_outer[i].x, arcPoints_outer[i].y, arcPoints_outer[i].z);
+        upper_triangle.point[1] = createPoint(arcPoints_outer[i+1].x, arcPoints_outer[i+1].y, arcPoints_outer[i].z);
+        upper_triangle.point[2] = createPoint(arcPoints_inner[i].x, arcPoints_inner[i].y, arcPoints_outer[i].z);
 
         //bottom triangle
-        bottom_triangle.point[0] = createPoint(arcPoints_inner[i].x, arcPoints_inner[i].y, 1.0);
-        bottom_triangle.point[1] = createPoint(arcPoints_outer[i+1].x, arcPoints_outer[i+1].y, 1.0);
-        bottom_triangle.point[2] = createPoint(arcPoints_inner[i+1].x, arcPoints_inner[i+1].y, 1.0);
+        bottom_triangle.point[0] = createPoint(arcPoints_inner[i].x, arcPoints_inner[i].y, arcPoints_outer[i].z);
+        bottom_triangle.point[1] = createPoint(arcPoints_outer[i+1].x, arcPoints_outer[i+1].y, arcPoints_outer[i].z);
+        bottom_triangle.point[2] = createPoint(arcPoints_inner[i+1].x, arcPoints_inner[i+1].y, arcPoints_outer[i].z);
 
         mesh.push_back(upper_triangle);
         mesh.push_back(bottom_triangle);
     }
 }
 
-void Curve::generate_curve(double positionX, double positionY, double radius, double line_width, double step_distance1, double step_distance2, double angle_start, double angle_end, bool dashed, int subdivisions) {
+void Curve::generate_curve(double positionX, double positionY, double positionZ, double radius, double line_width, double step_distance1, double step_distance2, double angle_start, double angle_end, bool dashed, int subdivisions) {
     
     mesh.clear();
 
     double start_radians = DEG_TO_RAD(angle_start);
     double end_radians = DEG_TO_RAD(angle_end);
 
-    int center_x = 0+positionX;
-    int center_y = 0+positionY;
+    double center_x = 0+positionX;
+    double center_y = 0+positionY;
+    double center_z = 0+positionZ;
 
     double current_angle = start_radians;
     int step_toggle = 0;
@@ -72,11 +71,11 @@ void Curve::generate_curve(double positionX, double positionY, double radius, do
 
     if (!dashed) {
 
-        std::vector<cv::Point2d> arcPoints_inner;
-        std::vector<cv::Point2d> arcPoints_outer;
+        std::vector<cv::Point3d> arcPoints_inner;
+        std::vector<cv::Point3d> arcPoints_outer;
 
-        arcPoints_inner = subdivisionPoints(center_x, center_y, start_radians, end_radians, radius, subdivisions);
-        arcPoints_outer = subdivisionPoints(center_x, center_y, start_radians, end_radians, radius+line_width, subdivisions);
+        arcPoints_inner = subdivisionPoints(center_x, center_y, center_z, start_radians, end_radians, radius, subdivisions);
+        arcPoints_outer = subdivisionPoints(center_x, center_y, center_z, start_radians, end_radians, radius+line_width, subdivisions);
 
         buildTriangle(arcPoints_inner, arcPoints_outer);
     
@@ -101,10 +100,10 @@ void Curve::generate_curve(double positionX, double positionY, double radius, do
                 current_angle = end_radians;
             }
 
-            std::vector<cv::Point2d> arcPoints_inner;
-            std::vector<cv::Point2d> arcPoints_outer;
-            arcPoints_inner = subdivisionPoints(center_x, center_y, prev_angle, current_angle, radius, subdivisions);
-            arcPoints_outer = subdivisionPoints(center_x, center_y, prev_angle, current_angle, radius+line_width, subdivisions);
+            std::vector<cv::Point3d> arcPoints_inner;
+            std::vector<cv::Point3d> arcPoints_outer;
+            arcPoints_inner = subdivisionPoints(center_x, center_y, center_z, prev_angle, current_angle, radius, subdivisions);
+            arcPoints_outer = subdivisionPoints(center_x, center_y, center_z, prev_angle, current_angle, radius+line_width, subdivisions);
 
             if (second_step && !first_step) {
                 

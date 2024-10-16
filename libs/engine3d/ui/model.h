@@ -46,14 +46,14 @@ public:
 
 	//engine
     ADD_PROPERTY(double, cameraSystemTranslationX, CameraSystemTranslationX, 10000.0)
-    ADD_PROPERTY(double, cameraSystemTranslationY, CameraSystemTranslationY, 10000.0)
-    ADD_PROPERTY(double, cameraSystemTranslationZ, CameraSystemTranslationZ, 10000.0)
+    ADD_PROPERTY(double, cameraSystemTranslationY, CameraSystemTranslationY, 10130.0)
+    ADD_PROPERTY(double, cameraSystemTranslationZ, CameraSystemTranslationZ, 10150.0)
     ADD_PROPERTY(double, cameraSystemRotationRoll, CameraSystemRotationRoll, 2700.0)
     ADD_PROPERTY(double, cameraSystemRotationPitch, CameraSystemRotationPitch, 0.0)
     ADD_PROPERTY(double, cameraSystemRotationYaw, CameraSystemRotationYaw, 2700.0)
-    ADD_PROPERTY(double, cubeSystemTranslationX, CubeSystemTranslationX, 16000.0)
-    ADD_PROPERTY(double, cubeSystemTranslationY, CubeSystemTranslationY, 10000.0)
-    ADD_PROPERTY(double, cubeSystemTranslationZ, CubeSystemTranslationZ, 3000.0)
+    ADD_PROPERTY(double, cubeSystemTranslationX, CubeSystemTranslationX, 10400.0)
+    ADD_PROPERTY(double, cubeSystemTranslationY, CubeSystemTranslationY, 10130.0)
+    ADD_PROPERTY(double, cubeSystemTranslationZ, CubeSystemTranslationZ, 10080.0)
     ADD_PROPERTY(double, cubeSystemRotationRoll, CubeSystemRotationRoll, 0.0)
     ADD_PROPERTY(double, cubeSystemRotationPitch, CubeSystemRotationPitch, 0.0)
     ADD_PROPERTY(double, cubeSystemRotationYaw, CubeSystemRotationYaw, 0.0)
@@ -64,16 +64,28 @@ public:
 
 
 	//curve
-	ADD_PROPERTY(double, curve_radius, Curve_radius, 10.0)
-	ADD_PROPERTY(double, line_width, Line_width, 0.6)
-    ADD_PROPERTY(double, track_width, Track_width, 3.0)
-    ADD_PROPERTY(double, dashed_length, Dashed_length, 2.0)
-    ADD_PROPERTY(double, dashed_space, Dashed_space, 1.0)
+	ADD_PROPERTY(int, showCurve, ShowCurve, 0.0)
+	ADD_PROPERTY(double, curve_radius, Curve_radius, 1.5)
+	ADD_PROPERTY(double, line_width, Line_width, 0.02)
+    ADD_PROPERTY(double, track_width, Track_width, 0.36)
+    ADD_PROPERTY(double, dashed_length, Dashed_length, 0.18)
+    ADD_PROPERTY(double, dashed_space, Dashed_space, 0.16)
     ADD_PROPERTY(double, curved_angle_start, Curved_angle_start, 0.0)
     ADD_PROPERTY(double, curved_angle_end, Curved_angle_end, 90.0)
 	ADD_PROPERTY(int, dashed_middle, Dashed_middle, 0.0)
     ADD_PROPERTY(int, dashed_outer, Dashed_outer, 0.0)
     ADD_PROPERTY(int, subdivisions, Subdivisions, 20.0)
+
+	//straight
+	ADD_PROPERTY(int, showStraight, ShowStraight, 0.0)
+	ADD_PROPERTY(double, length, Length, 0.35)
+	ADD_PROPERTY(double, width, Width, 0.015)
+	ADD_PROPERTY(double, stripeNumber, StripeNumber, 5)
+	ADD_PROPERTY(double, stripeLength, StripeLength, 0.035)
+	ADD_PROPERTY(double, lineDistance, LineDistance, 0.1)
+	ADD_PROPERTY(double, leftLine, LeftLine, 1.0)
+	ADD_PROPERTY(double, stripedLine, StripedLine, 1.0)
+    ADD_PROPERTY(double, rightLine, RightLine, 1.0)
 
 
 Q_SIGNALS:
