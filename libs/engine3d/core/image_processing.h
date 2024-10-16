@@ -1,14 +1,16 @@
-// Copyright (C) 2024 twyleg
+// Copyright (C) 2024 twyleg, Marvin-VW
 #pragma once
 
-#include "engine3d/engine/homogenous_transformation_matrix.h"
+#include "engine3d/engine/parameter.h"
+#include "engine3d/curve_calculator/parameter.h"
 
 #include <QThread>
 #include <QPixmap>
 
 #include <engine3d/ui/model.h>
 
-namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
+namespace engine_parameter = engine3d::engine::parameter;
+namespace curve_parameter = engine3d::curve_calculator::parameter;
 
 namespace engine3d::core {
 
@@ -33,8 +35,12 @@ public:
 
 private:
 
+	engine_parameter::Parameter engine_parameter;
+	curve_parameter::CurveParameter curve_parameter;
+
 	QPixmap generate_test_image(int red, int green, int blue);
-	HTM::Matrix::Parameter getParameters();
+	void getEngineParameters();
+	void getCurveParameters();
 
 };
 

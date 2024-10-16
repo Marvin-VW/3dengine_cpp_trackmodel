@@ -5,11 +5,13 @@
 #include "clipping_space.h"
 #include "color.h"
 #include "vectors.h"
+#include "parameter.h"
 
 #include <iostream>
 #include <exception>
 
-namespace HTM = engine3d::engine::homogeneous_transformation_matrix;;
+namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
+namespace parameter = engine3d::engine::parameter;
 
 RenderSystem::RenderSystem(
     CameraModel& cameraModel, 
@@ -29,7 +31,7 @@ RenderSystem::RenderSystem(
 {
 }
 
-void RenderSystem::create_matrices(const HTM::Matrix::Parameter parameter)
+void RenderSystem::create_matrices(const parameter::Parameter parameter)
 {
 
 	// Update homogeneous transformation matrices

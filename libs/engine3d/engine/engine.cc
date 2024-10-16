@@ -7,7 +7,7 @@
 
 namespace engine3d::engine {
 
-namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
+namespace engine_parameter = engine3d::engine::parameter;
 
 #define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 
@@ -41,7 +41,7 @@ Engine::~Engine()
 }
 
 
-cv::Mat Engine::run(cv::Mat& frame, std::vector<triangle> new_mesh, const HTM::Matrix::Parameter parameter)
+cv::Mat Engine::run(cv::Mat& frame, std::vector<triangle> new_mesh, const engine_parameter::Parameter parameter)
 {
     mesh = new_mesh;
 

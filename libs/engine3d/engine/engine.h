@@ -11,20 +11,21 @@
 #include "color.h"
 #include "fps_counter.h"
 
+
 #include <opencv2/core.hpp>
 
 #include <vector>
 
 namespace engine3d::engine {
 
-namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
+namespace engine_parameter = engine3d::engine::parameter;
 
 class Engine {
 public:
     Engine(int frame_width, int frame_height);
     ~Engine();
 
-	cv::Mat run(cv::Mat& frame, std::vector<triangle> new_mesh, const HTM::Matrix::Parameter parameter);
+	cv::Mat run(cv::Mat& frame, std::vector<triangle> new_mesh, const engine_parameter::Parameter parameter);
     CameraModel camera;
     RenderSystem renderer;
 

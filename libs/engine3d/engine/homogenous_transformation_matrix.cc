@@ -6,7 +6,7 @@ namespace engine3d::engine::homogeneous_transformation_matrix {
 
 namespace {
 
-cv::Mat createHomogeneousTransformationMatrix(const Matrix::MatrixParameter& p){
+cv::Mat createHomogeneousTransformationMatrix(const parameter::MatrixParameter& p){
 
 
 	double rotationMatrixRollData[4*4] =  {	1,	0,					0,					0,
@@ -39,7 +39,7 @@ cv::Mat createHomogeneousTransformationMatrix(const Matrix::MatrixParameter& p){
 
 }
 
-Matrix::Matrix(const MatrixParameter& parameter)
+Matrix::Matrix(const parameter::MatrixParameter& parameter)
 	: cv::Mat(createHomogeneousTransformationMatrix(parameter)),
 	  mParameter(parameter)
 {}

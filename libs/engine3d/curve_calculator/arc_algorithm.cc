@@ -54,15 +54,15 @@ void Curve::buildTriangle(std::vector<cv::Point2d> arcPoints_inner, std::vector<
     }
 }
 
-void Curve::generate_curve(cv::Mat& image, double positionX, double positionY, double radius, double line_width, double step_distance1, double step_distance2, double angle_start, double angle_end, bool dashed, int subdivisions) {
+void Curve::generate_curve(double positionX, double positionY, double radius, double line_width, double step_distance1, double step_distance2, double angle_start, double angle_end, bool dashed, int subdivisions) {
     
     mesh.clear();
 
     double start_radians = DEG_TO_RAD(angle_start);
     double end_radians = DEG_TO_RAD(angle_end);
 
-    int center_x = 0+positionX;//(image.cols / 2)+positionX;
-    int center_y = 0+positionY;//(image.rows / 2)+positionY;
+    int center_x = 0+positionX;
+    int center_y = 0+positionY;
 
     double current_angle = start_radians;
     int step_toggle = 0;

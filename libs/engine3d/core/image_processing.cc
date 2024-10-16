@@ -1,6 +1,6 @@
-// Copyright (C) 2024 twyleg
+// Copyright (C) 2024 twyleg, Marvin-VW
 #include "image_processing.h"
-#include "engine3d/curve_calculator/arc_algorithm.h"
+#include "engine3d/curve_calculator/generator.cc"
 
 #include <engine3d/engine/engine.h>
 
@@ -9,7 +9,8 @@
 
 #include <optional>
 
-namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
+namespace engine_parameter = engine3d::engine::parameter;
+namespace curve_parameter = engine3d::curve_calculator::parameter;
 
 namespace engine3d::core {
 
@@ -35,9 +36,9 @@ void ImageProcessing::run() {
 	cv::Mat camera_frame;
     cv::Mat engine_frame;
 
-	engine3d::engine::Engine engine(frame_width, frame_height);
+	std::vector<triangle> mesh;
 
-	engine3d::curve_calculator::Curve curve;
+	engine3d::engine::Engine engine(frame_width, frame_height);
 
     bool running = true;
 
@@ -45,48 +46,39 @@ void ImageProcessing::run() {
 
 		camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
 
-		double curve_radius = mParameterModel.getCurve_radius();
-		double line_width = mParameterModel.getLine_width();
-		double track_width = mParameterModel.getTrack_width(); 
-		double dashed_length = mParameterModel.getDashed_length();
-		double dashed_space = mParameterModel.getDashed_space();
-		double curved_angle_start = mParameterModel.getCurved_angle_start(); 
-		double curved_angle_end = mParameterModel.getCurved_angle_end();
-		bool dashed_middle = mParameterModel.getDashed_middle();
-		bool dashed_outer = mParameterModel.getDashed_outer();
-		int subdivisions = mParameterModel.getSubdivisions();
+		getCurveParameters();
+		getEngineParameters();
 
-		curve.generate_curve(camera_frame, 10, -5, curve_radius, line_width, dashed_length, dashed_space, curved_angle_start, curved_angle_end, dashed_outer, subdivisions);
-		std::vector<triangle> mesh = curve.get_curve_mesh();
-
-		curve.generate_curve(camera_frame, 10, -5, curve_radius-track_width, line_width, dashed_length, dashed_space, curved_angle_start, curved_angle_end, dashed_middle, subdivisions/2);
-		std::vector<triangle> mesh2 = curve.get_curve_mesh();
-
-		mesh.insert(mesh.end(), mesh2.begin(), mesh2.end());
-
-		curve.generate_curve(camera_frame, 10, -5, curve_radius-(track_width*2), line_width, dashed_length, dashed_space, curved_angle_start, curved_angle_end, dashed_outer, subdivisions);
-		std::vector<triangle> mesh3 = curve.get_curve_mesh();
-
-		mesh.insert(mesh.end(), mesh3.begin(), mesh3.end());
-
-
-		engine_frame = engine.run(camera_frame, mesh, getParameters());
+		mesh = generateTrack(curve_parameter);
+		engine_frame = engine.run(camera_frame, mesh, engine_parameter);
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);
 		mImageModel.setImage(QPixmap::fromImage(img));
 
 		msleep(1000 / 60.0);
-
     }
 
 }
 
+void ImageProcessing::getCurveParameters() {
 
-HTM::Matrix::Parameter ImageProcessing::getParameters() {
+	curve_parameter.curve_radius = mParameterModel.getCurve_radius();
+	curve_parameter.line_width = mParameterModel.getLine_width();
+	curve_parameter.track_width = mParameterModel.getTrack_width(); 
+	curve_parameter.dashed_length = mParameterModel.getDashed_length();
+	curve_parameter.dashed_space = mParameterModel.getDashed_space();
+	curve_parameter.curved_angle_start = mParameterModel.getCurved_angle_start(); 
+	curve_parameter.curved_angle_end = mParameterModel.getCurved_angle_end();
+	curve_parameter.dashed_middle = mParameterModel.getDashed_middle();
+	curve_parameter.dashed_outer = mParameterModel.getDashed_outer();
+	curve_parameter.subdivisions = mParameterModel.getSubdivisions();
 
-    HTM::Matrix::Parameter parameter;
+}
 
-	parameter.vehicle_to_camera_parameter = {
+
+void ImageProcessing::getEngineParameters() {
+
+	engine_parameter.vehicle_to_camera_parameter = {
 		(mParameterModel.getCameraSystemTranslationX()-10000)/1000.0,
 		(mParameterModel.getCameraSystemTranslationY()-10000)/1000.0,
 		(mParameterModel.getCameraSystemTranslationZ()-10000)/1000.0,
@@ -95,7 +87,7 @@ HTM::Matrix::Parameter ImageProcessing::getParameters() {
 		DEG_TO_RAD(mParameterModel.getCameraSystemRotationYaw()/10.0)
 	};
  
-	parameter.vehicle_to_cube_parameter = {
+	engine_parameter.vehicle_to_cube_parameter = {
 		(mParameterModel.getCubeSystemTranslationX()-10000)/1000.0,
 		(mParameterModel.getCubeSystemTranslationY()-10000)/1000.0,
 		(mParameterModel.getCubeSystemTranslationZ()-10000)/1000.0,
@@ -104,13 +96,12 @@ HTM::Matrix::Parameter ImageProcessing::getParameters() {
 		DEG_TO_RAD(mParameterModel.getCubeSystemRotationYaw()/10.0)
 	};
 
-    parameter.ui_parameter = {
+    engine_parameter.ui_parameter = {
 		static_cast<bool>(mParameterModel.getCubeSystemNormals()),
 		static_cast<bool>(mParameterModel.getCubeSystemPoints()),
 		static_cast<bool>(mParameterModel.getCubeSystemFaces())
     };
 
-    return parameter;
 }
 
 }

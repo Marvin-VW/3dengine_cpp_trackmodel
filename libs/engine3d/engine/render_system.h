@@ -2,11 +2,12 @@
 #pragma once
 
 #include "triangle.h"
+#include "parameter.h"
 #include "homogenous_transformation_matrix.h"
 
 #include <cstdint>
 
-namespace HTM = engine3d::engine::homogeneous_transformation_matrix;
+namespace parameter = engine3d::engine::parameter;
 
 class Shape;
 class CameraModel;
@@ -28,7 +29,7 @@ public:
     FpsCounter& FpsCounter
     );
 
-    void create_matrices(const HTM::Matrix::Parameter parameter);
+    void create_matrices(const parameter::Parameter parameter);
     void update_fps();
 
     cv::Mat renderFrame();
