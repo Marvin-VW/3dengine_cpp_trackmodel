@@ -361,7 +361,7 @@ ApplicationWindow
                         from: 0.01
                         to: 50
                         value: parameterModel.curve_radius
-                        stepSize: 0.1
+                        stepSize: 0.01
                         onValueChanged: parameterModel.curve_radius = value
                     }
 
@@ -372,7 +372,7 @@ ApplicationWindow
                         from: 0.01
                         to: 20
                         value: parameterModel.track_width
-                        stepSize: 0.1
+                        stepSize: 0.01
                         onValueChanged: parameterModel.track_width = value
                     }
 
@@ -383,7 +383,7 @@ ApplicationWindow
                         from: 0.01
                         to: 50
                         value: parameterModel.dashed_length
-                        stepSize: 0.1
+                        stepSize: 0.01
                         onValueChanged: parameterModel.dashed_length = value
                     }
 
@@ -394,7 +394,7 @@ ApplicationWindow
                         from: 0.01
                         to: 50
                         value: parameterModel.dashed_space
-                        stepSize: 0.1
+                        stepSize: 0.01
                         onValueChanged: parameterModel.dashed_space = value
                     }
 
@@ -405,7 +405,7 @@ ApplicationWindow
                         from: 0.01
                         to: 3
                         value: parameterModel.line_width
-                        stepSize: 0.1
+                        stepSize: 0.01
                         onValueChanged: parameterModel.line_width = value
                     }
 
