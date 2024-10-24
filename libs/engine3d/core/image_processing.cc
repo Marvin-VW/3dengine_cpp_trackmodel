@@ -37,6 +37,9 @@ void ImageProcessing::run() {
 
 	cv::Mat camera_frame;
     cv::Mat engine_frame;
+	cv::Mat bgr_frame;
+
+    cv::VideoCapture cap("http://192.168.30.123:8443/normal.py");
 
 	std::vector<triangle> mesh;
 
@@ -46,7 +49,7 @@ void ImageProcessing::run() {
 
     while(running) {
 
-		camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
+		//camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
 
 		getCurveParameters();
 		getEngineParameters();
@@ -64,6 +67,10 @@ void ImageProcessing::run() {
 			mesh.clear();
 		}
 
+		cap >> camera_frame;
+        //cv::cvtColor(bgr_frame, camera_frame, cv::COLOR_BGR2RGB);
+		cv::resize(camera_frame, camera_frame, cv::Size(), 4.0, 4.0, cv::INTER_LINEAR);
+
 		engine_frame = engine.run(camera_frame, mesh, engine_parameter);
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);
@@ -76,29 +83,30 @@ void ImageProcessing::run() {
 
 void ImageProcessing::getStraightParameters() {
 
-	straight_parameter.length = mParameterModel.getLength();
-	straight_parameter.width = mParameterModel.getWidth();
-	straight_parameter.wantedStripeNum =  mParameterModel.getStripeNumber();
-	straight_parameter.stripeLength = mParameterModel.getStripeLength();
-	straight_parameter.lineDistance = mParameterModel.getLineDistance();
-	straight_parameter.leftLine = mParameterModel.getLeftLine();
-	straight_parameter.stripedLine = mParameterModel.getStripedLine();
-	straight_parameter.rightLine = mParameterModel.getRightLine();
+	straight_parameter.track_length = mParameterModel.getStraight_track_length();
+	straight_parameter.track_width_left = mParameterModel.getStraight_track_width_left();
+	straight_parameter.track_width_right = mParameterModel.getStraight_track_width_right();
+	straight_parameter.stripeNumber =  mParameterModel.getStraight_stripeNumber();
+	straight_parameter.stripeLength = mParameterModel.getStraight_stripeLength();
+	straight_parameter.line_width = mParameterModel.getStraight_line_width();
+	straight_parameter.left_line = mParameterModel.getStraight_left_line();
+	straight_parameter.dashed_line = mParameterModel.getStraight_dashed_line();
+	straight_parameter.right_line = mParameterModel.getStraight_right_line();
 
 }
 
 void ImageProcessing::getCurveParameters() {
 
 	curve_parameter.curve_radius = mParameterModel.getCurve_radius();
-	curve_parameter.line_width = mParameterModel.getLine_width();
-	curve_parameter.track_width = mParameterModel.getTrack_width(); 
-	curve_parameter.dashed_length = mParameterModel.getDashed_length();
-	curve_parameter.dashed_space = mParameterModel.getDashed_space();
-	curve_parameter.curved_angle_start = mParameterModel.getCurved_angle_start(); 
-	curve_parameter.curved_angle_end = mParameterModel.getCurved_angle_end();
-	curve_parameter.dashed_middle = mParameterModel.getDashed_middle();
-	curve_parameter.dashed_outer = mParameterModel.getDashed_outer();
-	curve_parameter.subdivisions = mParameterModel.getSubdivisions();
+	curve_parameter.track_width_left = mParameterModel.getCurve_track_width_left(); 
+	curve_parameter.track_width_right = mParameterModel.getCurve_track_width_right(); 
+	curve_parameter.dashed_length = mParameterModel.getCurve_dashed_length();
+	curve_parameter.dashed_space = mParameterModel.getCurve_dashed_space();
+	curve_parameter.line_width = mParameterModel.getCurve_line_width();
+	curve_parameter.curved_angle_start = mParameterModel.getCurve_angle_start(); 
+	curve_parameter.curved_angle_end = mParameterModel.getCurve_angle_end();
+	curve_parameter.dashed_middle = mParameterModel.getCurve_dashed_middle();
+	curve_parameter.subdivisions = mParameterModel.getCurve_subdivisions();
 
 }
 

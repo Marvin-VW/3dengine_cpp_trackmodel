@@ -63,7 +63,13 @@
         "exception": "cpp",
         "memory": "cpp",
         "print": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "future": "cpp",
+        "*.ipp": "cpp",
+        "*.tcc": "cpp",
+        "format": "cpp",
+        "functional": "cpp",
+        "utility": "cpp"
     },
     "cmake.configureOnOpen": false,
 }

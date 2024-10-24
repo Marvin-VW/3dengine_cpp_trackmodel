@@ -15,7 +15,8 @@ public:
     cv::Mat createPoint(double x, double y, double z);
     std::vector<triangle> generate_straight(
     double length,
-    double width,
+    double width_left,
+    double width_right,
     double wantedStripeNum,
     double stripeLength,
     double lineDistance,

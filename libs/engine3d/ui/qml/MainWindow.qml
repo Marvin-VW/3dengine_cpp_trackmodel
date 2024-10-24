@@ -366,93 +366,97 @@ ApplicationWindow
                     }
 
                     AdvancedSlider {
-                        id: track_width
+                        id: curve_track_width_left
                         width: parent.width
-                        name: "track_width"
+                        name: "curve_track_width_left"
                         from: 0.01
                         to: 20
-                        value: parameterModel.track_width
+                        value: parameterModel.curve_track_width_left
                         stepSize: 0.01
-                        onValueChanged: parameterModel.track_width = value
+                        onValueChanged: parameterModel.curve_track_width_left = value
                     }
 
                     AdvancedSlider {
-                        id: dashed_length
+                        id: curve_track_width_right
                         width: parent.width
-                        name: "dashed_length"
+                        name: "curve_track_width_right"
+                        from: 0.01
+                        to: 20
+                        value: parameterModel.curve_track_width_right
+                        stepSize: 0.01
+                        onValueChanged: parameterModel.curve_track_width_right = value
+                    }
+
+                    AdvancedSlider {
+                        id: curve_dashed_length
+                        width: parent.width
+                        name: "curve_dashed_length"
                         from: 0.01
                         to: 50
-                        value: parameterModel.dashed_length
+                        value: parameterModel.curve_dashed_length
                         stepSize: 0.01
-                        onValueChanged: parameterModel.dashed_length = value
+                        onValueChanged: parameterModel.curve_dashed_length = value
                     }
 
                     AdvancedSlider {
-                        id: dashed_space
+                        id: curve_dashed_space
                         width: parent.width
-                        name: "dashed_space"
+                        name: "curve_dashed_space"
                         from: 0.01
                         to: 50
-                        value: parameterModel.dashed_space
+                        value: parameterModel.curve_dashed_space
                         stepSize: 0.01
-                        onValueChanged: parameterModel.dashed_space = value
+                        onValueChanged: parameterModel.curve_dashed_space = value
                     }
 
                     AdvancedSlider {
-                        id: line_width
+                        id: curve_line_width
                         width: parent.width
-                        name: "line_width"
+                        name: "curve_line_width"
                         from: 0.01
                         to: 3
-                        value: parameterModel.line_width
+                        value: parameterModel.curve_line_width
                         stepSize: 0.01
-                        onValueChanged: parameterModel.line_width = value
+                        onValueChanged: parameterModel.curve_line_width = value
                     }
 
                     AdvancedSlider {
-                        id: curved_angle_start
+                        id: curve_angle_start
                         width: parent.width
-                        name: "curved_angle_start"
+                        name: "curve_angle_start"
                         from: 0
                         to: 360
-                        value: parameterModel.curved_angle_start
+                        value: parameterModel.curve_angle_start
                         stepSize: 1
-                        onValueChanged: parameterModel.curved_angle_start = value
+                        onValueChanged: parameterModel.curve_angle_start = value
                     }
 
                     AdvancedSlider {
-                        id: curved_angle_end
+                        id: curve_angle_end
                         width: parent.width
-                        name: "curved_angle_end"
+                        name: "curve_angle_end"
                         from: 0
                         to: 360
-                        value: parameterModel.curved_angle_end
+                        value: parameterModel.curve_angle_end
                         stepSize: 1
-                        onValueChanged: parameterModel.curved_angle_end = value
+                        onValueChanged: parameterModel.curve_angle_end = value
                     }
 
                     AdvancedSwitch {
-                        name: "dashed_middle"
+                        name: "curve_dashed_middle"
                         width: parent.width
-                        onValueChanged: parameterModel.dashed_middle = value
-                    }
-
-
-                    AdvancedSwitch {
-                        name: "dashed_outer"
-                        width: parent.width
-                        onValueChanged: parameterModel.dashed_outer = value
+                        onValueChanged: parameterModel.curve_dashed_middle = value
                     }
 
                     AdvancedSlider {
-                        id: subdivisions
+                        id: curve_subdivisions
                         width: parent.width
-                        name: "subdivisions"
+                        name: "curve_subdivisions"
                         from: 0
                         to: 100
-                        value: parameterModel.subdivisions
+                        value: parameterModel.curve_subdivisions
                         stepSize: 1
-                        onValueChanged: parameterModel.subdivisions = value
+                        onValueChanged: parameterModel.curve_subdivisions = value
                     }
 
                 }
@@ -505,76 +509,87 @@ ApplicationWindow
                     }
 
                     AdvancedSlider {
-                        id: length
+                        id: straight_track_length
                         width: parent.width
-                        name: "length"
+                        name: "straight_track_length"
                         from: 0.01
                         to: 1
-                        value: parameterModel.length
+                        value: parameterModel.straight_track_length
                         stepSize: 0.01
-                        onValueChanged: parameterModel.length = value
+                        onValueChanged: parameterModel.straight_track_length = value
                     }
 
                     AdvancedSlider {
-                        id: width
+                        id: straight_track_width_left
                         width: parent.width
-                        name: "width"
+                        name: "straight_track_width_left"
                         from: 0.01
                         to: 1
-                        value: parameterModel.width
+                        value: parameterModel.straight_track_width_left
                         stepSize: 0.01
-                        onValueChanged: parameterModel.width = value
+                        onValueChanged: parameterModel.straight_track_width_left = value
                     }
 
                     AdvancedSlider {
-                        id: stripeNum
+                        id: straight_track_width_right
                         width: parent.width
-                        name: "stripeNumber"
+                        name: "straight_track_width_right"
+                        from: 0.01
+                        to: 1
+                        value: parameterModel.straight_track_width_right
+                        stepSize: 0.01
+                        onValueChanged: parameterModel.straight_track_width_right = value
+                    }
+
+                    AdvancedSlider {
+                        id: straight_stripeNumber
+                        width: parent.width
+                        name: "straight_stripeNumber"
                         from: 2
                         to: 25
-                        value: parameterModel.stripeNumber
+                        value: parameterModel.straight_stripeNumber
                         stepSize: 1
-                        onValueChanged: parameterModel.stripeNumber = value
+                        onValueChanged: parameterModel.straight_stripeNumber = value
                     }
 
                     AdvancedSlider {
-                        id: stripeLength
+                        id: straight_stripeLength
                         width: parent.width
-                        name: "stripeLength"
+                        name: "straight_stripeLength"
                         from: 0.01
                         to: 1
-                        value: parameterModel.stripeLength
+                        value: parameterModel.straight_stripeLength
                         stepSize: 0.01
-                        onValueChanged: parameterModel.stripeLength = value
+                        onValueChanged: parameterModel.straight_stripeLength = value
                     }
 
                     AdvancedSlider {
-                        id: lineDistance
+                        id: straight_line_width
                         width: parent.width
-                        name: "lineDistance"
+                        name: "straight_line_width"
                         from: 0.01
                         to: 5
-                        value: parameterModel.lineDistance
+                        value: parameterModel.straight_line_width
                         stepSize: 0.01
-                        onValueChanged: parameterModel.lineDistance = value
+                        onValueChanged: parameterModel.straight_line_width = value
                     }
 
                     AdvancedSwitch {
-                        name: "leftLine"
+                        name: "straight_left_line"
                         width: parent.width
-                        onValueChanged: parameterModel.leftLine = value
+                        onValueChanged: parameterModel.straight_left_line = value
                     }
 
                     AdvancedSwitch {
-                        name: "stripedLine"
+                        name: "straight_dashed_line"
                         width: parent.width
-                        onValueChanged: parameterModel.stripedLine = value
+                        onValueChanged: parameterModel.straight_dashed_line = value
                     }
 
                     AdvancedSwitch {
-                        name: "rightLine"
+                        name: "straight_right_line"
                         width: parent.width
-                        onValueChanged: parameterModel.rightLine = value
+                        onValueChanged: parameterModel.straight_right_line = value
                     }
                 }
             }

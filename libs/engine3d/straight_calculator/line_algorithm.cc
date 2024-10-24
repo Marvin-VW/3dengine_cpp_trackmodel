@@ -18,23 +18,21 @@ cv::Mat Straight::createPoint(double x, double y, double z) {
 
 std::vector<triangle> Straight::generate_straight(
     double length,
-    double width,
+    double width_left,
+    double width_right,
     double wantedStripeNum,
     double stripeLength,
-    double lineDistance,
+    double line_width,
     bool leftLine,
     bool stripedLine,
     bool rightLine
 ) {
-
-    double solidLineWidth = width;
-    double stripedLineWidth = width;
     double stripedLineSpaceMultiplier = 0.5; // value * striped line len = space between stipes
     double actStripeNum = 1;
     double stripeSpacing = length / actStripeNum * stripedLineSpaceMultiplier;
 
     std::vector<triangle> mesh;
-    
+
     while (stripeLength * actStripeNum + stripeSpacing * (actStripeNum) < length) {
         actStripeNum = actStripeNum + 1;
         stripeSpacing = length / actStripeNum * stripedLineSpaceMultiplier; // update stipeSpacing because actStripeNum changed
@@ -44,10 +42,10 @@ std::vector<triangle> Straight::generate_straight(
     }
 
     if (rightLine) {
-    cv::Mat SolidLine_P0 = createPoint(-length / 2, solidLineWidth / 2 - (lineDistance), 0);  // Top left
-    cv::Mat SolidLine_P1 = createPoint(-length / 2, -solidLineWidth / 2 - (lineDistance), 0); // Bottom left
-    cv::Mat SolidLine_P2 = createPoint(length / 2, -solidLineWidth / 2 - (lineDistance), 0);  // Bottom right
-    cv::Mat SolidLine_P3 = createPoint(length / 2, solidLineWidth / 2 - (lineDistance), 0);   // Top right
+    cv::Mat SolidLine_P0 = createPoint(-length / 2, line_width / 2 - (width_right), 0);  // Top left
+    cv::Mat SolidLine_P1 = createPoint(-length / 2, -line_width / 2 - (width_right), 0); // Bottom left
+    cv::Mat SolidLine_P2 = createPoint(length / 2, -line_width / 2 - (width_right), 0);  // Bottom right
+    cv::Mat SolidLine_P3 = createPoint(length / 2, line_width / 2 - (width_right), 0);   // Top right
 
     // Triangles
     mesh.push_back({ {SolidLine_P0, SolidLine_P1, SolidLine_P2} }); 
@@ -55,10 +53,10 @@ std::vector<triangle> Straight::generate_straight(
     }
 
     if (leftLine) {
-    cv::Mat SecSolidLine_P0 = createPoint(-length / 2, solidLineWidth / 2 + (lineDistance), 0);  // Top left
-    cv::Mat SecSolidLine_P1 = createPoint(-length / 2, -solidLineWidth / 2 + (lineDistance), 0); // Bottom left
-    cv::Mat SecSolidLine_P2 = createPoint(length / 2, -solidLineWidth / 2 + (lineDistance), 0);  // Bottom right
-    cv::Mat SecSolidLine_P3 = createPoint(length / 2, solidLineWidth / 2 + (lineDistance), 0);   // Top right
+    cv::Mat SecSolidLine_P0 = createPoint(-length / 2, line_width / 2 + (width_left), 0);  // Top left
+    cv::Mat SecSolidLine_P1 = createPoint(-length / 2, -line_width / 2 + (width_left), 0); // Bottom left
+    cv::Mat SecSolidLine_P2 = createPoint(length / 2, -line_width / 2 + (width_left), 0);  // Bottom right
+    cv::Mat SecSolidLine_P3 = createPoint(length / 2, line_width / 2 + (width_left), 0);   // Top right
 
     // Triangles
     mesh.push_back({ {SecSolidLine_P0, SecSolidLine_P1, SecSolidLine_P2} }); 
@@ -71,15 +69,35 @@ std::vector<triangle> Straight::generate_straight(
         double stripeStart = -length / 2 + i * (stripeLength + stripeSpacing);
         double stripeEnd = stripeStart + stripeLength;
 
-        cv::Mat Stripe_P0 = createPoint(stripeStart, stripedLineWidth / 2, 0);  // Top left
-        cv::Mat Stripe_P1 = createPoint(stripeStart, -stripedLineWidth / 2, 0); // Bottom left
-        cv::Mat Stripe_P2 = createPoint(stripeEnd, -stripedLineWidth / 2, 0);   // Bottom right
-        cv::Mat Stripe_P3 = createPoint(stripeEnd, stripedLineWidth / 2, 0);    // Top right
+        cv::Mat Stripe_P0 = createPoint(stripeStart, line_width / 2, 0);  // Top left
+        cv::Mat Stripe_P1 = createPoint(stripeStart, -line_width / 2, 0); // Bottom left
+        cv::Mat Stripe_P2 = createPoint(stripeEnd, -line_width / 2, 0);   // Bottom right
+        cv::Mat Stripe_P3 = createPoint(stripeEnd, line_width / 2, 0);    // Top right
 
         // Triangles
         mesh.push_back({ {Stripe_P0, Stripe_P1, Stripe_P2} });
         mesh.push_back({ {Stripe_P0, Stripe_P2, Stripe_P3} });
     }
+    } else {
+
+        actStripeNum = 1;
+        stripeLength = length;
+
+
+        for (int i = 0; i < actStripeNum; ++i) {
+        double stripeStart = -length / 2 + i * (stripeLength + stripeSpacing);
+        double stripeEnd = stripeStart + stripeLength;
+
+        cv::Mat Stripe_P0 = createPoint(stripeStart, line_width / 2, 0);  // Top left
+        cv::Mat Stripe_P1 = createPoint(stripeStart, -line_width / 2, 0); // Bottom left
+        cv::Mat Stripe_P2 = createPoint(stripeEnd, -line_width / 2, 0);   // Bottom right
+        cv::Mat Stripe_P3 = createPoint(stripeEnd, line_width / 2, 0);    // Top right
+
+        // Triangles
+        mesh.push_back({ {Stripe_P0, Stripe_P1, Stripe_P2} });
+        mesh.push_back({ {Stripe_P0, Stripe_P2, Stripe_P3} });
+    }
+
     }
 
     return mesh;
