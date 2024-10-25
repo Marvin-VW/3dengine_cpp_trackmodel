@@ -1,4 +1,5 @@
-// Copyright (C) 2024 Daniel-VW, Marvin-VW
+
+// Copyright (C) 2024 Daniel-VW
 #include <iostream>
 #include <vector>
 #include "line_algorithm.h"
@@ -28,44 +29,40 @@ std::vector<triangle> Straight::generate_straight(
     bool right_line
 ) {
 
-    std::vector<triangle> mesh;
-
-    if (right_line) {
+    if (rightLine) {
         cv::Mat SolidLine_P0 = createPoint(-track_length / 2,    -((track_width_right + line_width / 2) + line_width),    0);  // Bottom right
         cv::Mat SolidLine_P1 = createPoint(-track_length / 2,    -(track_width_right + line_width / 2),                   0);  // Bottom left
         cv::Mat SolidLine_P2 = createPoint(track_length / 2,     -((track_width_right + line_width / 2) + line_width),    0);  // Top right
         cv::Mat SolidLine_P3 = createPoint(track_length / 2,     -(track_width_right + line_width / 2),                   0);  // Top left
 
     // Triangles
-        mesh.push_back({ {SolidLine_P0, SolidLine_P2, SolidLine_P3} }); 
-        mesh.push_back({ {SolidLine_P1, SolidLine_P0, SolidLine_P3} }); 
+    mesh.push_back({ {SolidLine_P0, SolidLine_P1, SolidLine_P2} }); 
+    mesh.push_back({ {SolidLine_P0, SolidLine_P2, SolidLine_P3} }); 
     }
 
-    if (left_line) {
+    if (leftLine) {
         cv::Mat SecSolidLine_P0 = createPoint(-track_length / 2,    (track_width_left + line_width / 2),                0);  // Bottom right
         cv::Mat SecSolidLine_P1 = createPoint(-track_length / 2,    (track_width_left + line_width / 2) + line_width,   0); // Bottom left
         cv::Mat SecSolidLine_P2 = createPoint(track_length / 2,     (track_width_left + line_width / 2),                0);  // Top right
         cv::Mat SecSolidLine_P3 = createPoint(track_length / 2,     (track_width_left + line_width / 2) + line_width,   0);   // Top left
 
     // Triangles
+    mesh.push_back({ {SecSolidLine_P0, SecSolidLine_P1, SecSolidLine_P2} }); 
     mesh.push_back({ {SecSolidLine_P0, SecSolidLine_P2, SecSolidLine_P3} }); 
-    mesh.push_back({ {SecSolidLine_P1, SecSolidLine_P0, SecSolidLine_P3} }); 
     }
 
+    if (!dashed_line) {
+        cv::Mat SecSolidLine_P0 = createPoint(-length / 2, line_width / 2 + (width_left), 0);  // Top left
+        cv::Mat SecSolidLine_P1 = createPoint(-length / 2, -line_width / 2 + (width_left), 0); // Bottom left
+        cv::Mat SecSolidLine_P2 = createPoint(length / 2, -line_width / 2 + (width_left), 0);  // Bottom right
+        cv::Mat SecSolidLine_P3 = createPoint(length / 2, line_width / 2 + (width_left), 0);   // Top right
 
-    if (dashed_line) {
-
-        cv::Mat SecSolidLine_P0 = createPoint(-track_length / 2,    -(line_width / 2),                0);  // Bottom right
-        cv::Mat SecSolidLine_P1 = createPoint(-track_length / 2,    (line_width / 2),                 0); // Bottom left
-        cv::Mat SecSolidLine_P2 = createPoint(track_length / 2,     -(line_width / 2),                0);  // Top right
-        cv::Mat SecSolidLine_P3 = createPoint(track_length / 2,     (line_width / 2),                 0);   // Top left
-
-    // Triangles
-    mesh.push_back({ {SecSolidLine_P0, SecSolidLine_P2, SecSolidLine_P3} }); 
-    mesh.push_back({ {SecSolidLine_P1, SecSolidLine_P0, SecSolidLine_P3} }); 
+        // Triangles
+        mesh.push_back({ {SecSolidLine_P0, SecSolidLine_P1, SecSolidLine_P2} }); 
+        mesh.push_back({ {SecSolidLine_P0, SecSolidLine_P2, SecSolidLine_P3} }); 
     }
 
-    
+    }
+
     return mesh;
-    }
 }

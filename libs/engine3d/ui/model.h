@@ -45,14 +45,14 @@ private:
 public:
 
 	//engine
-    ADD_PROPERTY(double, cameraSystemTranslationX, CameraSystemTranslationX, 10000.0)
-    ADD_PROPERTY(double, cameraSystemTranslationY, CameraSystemTranslationY, 10320.0)
-    ADD_PROPERTY(double, cameraSystemTranslationZ, CameraSystemTranslationZ, 10190.0)
-    ADD_PROPERTY(double, cameraSystemRotationRoll, CameraSystemRotationRoll, 2706.0)
+    ADD_PROPERTY(double, cameraSystemTranslationX, CameraSystemTranslationX, 10065.0)
+    ADD_PROPERTY(double, cameraSystemTranslationY, CameraSystemTranslationY, 10000.0)
+    ADD_PROPERTY(double, cameraSystemTranslationZ, CameraSystemTranslationZ, 10140.0)
+    ADD_PROPERTY(double, cameraSystemRotationRoll, CameraSystemRotationRoll, 2700.0)
     ADD_PROPERTY(double, cameraSystemRotationPitch, CameraSystemRotationPitch, 0.0)
     ADD_PROPERTY(double, cameraSystemRotationYaw, CameraSystemRotationYaw, 2700.0)
-    ADD_PROPERTY(double, cubeSystemTranslationX, CubeSystemTranslationX, 10940.0)
-    ADD_PROPERTY(double, cubeSystemTranslationY, CubeSystemTranslationY, 9330.0)
+    ADD_PROPERTY(double, cubeSystemTranslationX, CubeSystemTranslationX, 11100.0)
+    ADD_PROPERTY(double, cubeSystemTranslationY, CubeSystemTranslationY, 9850.0)
     ADD_PROPERTY(double, cubeSystemTranslationZ, CubeSystemTranslationZ, 10000.0)
     ADD_PROPERTY(double, cubeSystemRotationRoll, CubeSystemRotationRoll, 0.0)
     ADD_PROPERTY(double, cubeSystemRotationPitch, CubeSystemRotationPitch, 0.0)
@@ -80,8 +80,8 @@ public:
 	//straight
 	ADD_PROPERTY(int, showStraight, ShowStraight, 0.0)
 	ADD_PROPERTY(double, straight_track_length, Straight_track_length, 0.5)
-	ADD_PROPERTY(double, straight_track_width_left, Straight_track_width_left, 0.36)
-	ADD_PROPERTY(double, straight_track_width_right, Straight_track_width_right, 0.36)
+	ADD_PROPERTY(double, straight_track_width_left, Straight_track_width_left, 0.28)
+	ADD_PROPERTY(double, straight_track_width_right, Straight_track_width_right, 0.26)
 	ADD_PROPERTY(double, straight_stripeNumber, Straight_stripeNumber, 5)
 	ADD_PROPERTY(double, straight_stripeLength, Straight_stripeLength, 0.035)
 	ADD_PROPERTY(double, straight_line_width, Straight_line_width, 0.02)

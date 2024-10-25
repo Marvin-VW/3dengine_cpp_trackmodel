@@ -14,15 +14,15 @@ public:
 
     cv::Mat createPoint(double x, double y, double z);
     std::vector<triangle> generate_straight(
-    double length,
-    double width_left,
-    double width_right,
-    double wantedStripeNum,
-    double stripeLength,
-    double lineDistance,
-    bool leftLine,
-    bool stripedLine,
-    bool rightLine
+        double track_length,
+        double track_width_left,
+        double track_width_right,
+        double stripeNumber,
+        double stripeLength,
+        double line_width,
+        bool left_line,
+        bool dashed_line,
+        bool right_line
     );
 
 };
