@@ -11,14 +11,15 @@ std::vector<triangle> generateStraightTrack(straight_parameter::StraightParamete
     std::vector<triangle> mesh;
 
     mesh = straight.generate_straight(
-        straight_parameter.length,
-        straight_parameter.width,
-        straight_parameter.wantedStripeNum,
+        straight_parameter.track_length,
+        straight_parameter.track_width_left,
+        straight_parameter.track_width_right,
+        straight_parameter.stripeNumber,
         straight_parameter.stripeLength,
-        straight_parameter.lineDistance,
-        straight_parameter.leftLine,
-        straight_parameter.stripedLine,
-        straight_parameter.rightLine
+        straight_parameter.line_width,
+        straight_parameter.left_line,
+        straight_parameter.dashed_line,
+        straight_parameter.right_line
     );
 
     return mesh;

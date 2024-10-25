@@ -74,8 +74,8 @@ void Curve::generate_curve(double positionX, double positionY, double positionZ,
         std::vector<cv::Point3d> arcPoints_inner;
         std::vector<cv::Point3d> arcPoints_outer;
 
-        arcPoints_inner = subdivisionPoints(center_x, center_y, center_z, start_radians, end_radians, radius, subdivisions);
-        arcPoints_outer = subdivisionPoints(center_x, center_y, center_z, start_radians, end_radians, radius+line_width, subdivisions);
+        arcPoints_outer = subdivisionPoints(center_x, center_y, center_z, start_radians, end_radians, radius, subdivisions);
+        arcPoints_inner = subdivisionPoints(center_x, center_y, center_z, start_radians, end_radians, radius-line_width, subdivisions);
 
         buildTriangle(arcPoints_inner, arcPoints_outer);
     
@@ -102,8 +102,8 @@ void Curve::generate_curve(double positionX, double positionY, double positionZ,
 
             std::vector<cv::Point3d> arcPoints_inner;
             std::vector<cv::Point3d> arcPoints_outer;
-            arcPoints_inner = subdivisionPoints(center_x, center_y, center_z, prev_angle, current_angle, radius, subdivisions);
-            arcPoints_outer = subdivisionPoints(center_x, center_y, center_z, prev_angle, current_angle, radius+line_width, subdivisions);
+            arcPoints_outer = subdivisionPoints(center_x, center_y, center_z, prev_angle, current_angle, radius, subdivisions);
+            arcPoints_inner = subdivisionPoints(center_x, center_y, center_z, prev_angle, current_angle, radius-line_width, subdivisions);
 
             if (second_step && !first_step) {
                 

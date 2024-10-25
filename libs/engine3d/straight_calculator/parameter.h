@@ -4,14 +4,15 @@
 namespace engine3d::straight_calculator::parameter {
 
 struct StraightParameter {
-    double length;
-    double width;
-    double wantedStripeNum;
+    double track_length;
+    double track_width_left;
+    double track_width_right;
+    double stripeNumber;
     double stripeLength;
-    double lineDistance;
-    bool leftLine;
-    bool stripedLine;
-    bool rightLine;   
+    double line_width;
+    bool left_line;
+    bool dashed_line;
+    bool right_line;
 };
 
 }
