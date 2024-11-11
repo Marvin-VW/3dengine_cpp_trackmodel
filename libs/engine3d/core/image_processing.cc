@@ -2,6 +2,7 @@
 #include "image_processing.h"
 #include "engine3d/curve_calculator/generator.cc"
 #include "engine3d/straight_calculator/generator.cc"
+#include "engine3d/image_filter/camera_processor.h"
 
 #include <engine3d/engine/engine.h>
 
@@ -13,6 +14,7 @@
 
 namespace engine_parameter = engine3d::engine::parameter;
 namespace curve_parameter = engine3d::curve_calculator::parameter;
+namespace image_filter = engine3d::image_filter;
 
 namespace engine3d::core {
 
@@ -41,6 +43,14 @@ void ImageProcessing::run() {
 
     cv::VideoCapture cap("http://192.168.30.123:8443/normal.py");
 
+    std::vector<int> rows_to_inspect;
+	        
+		for (int i = 480; i >= 300; i -= 1) {
+            rows_to_inspect.push_back(i);
+        }
+        
+    image_filter::CameraProcessor processor(rows_to_inspect);
+
 	std::vector<triangle> mesh;
 
 	engine3d::engine::Engine engine(frame_width, frame_height);
@@ -68,10 +78,25 @@ void ImageProcessing::run() {
 		}
 
 		cap >> camera_frame;
-        //cv::cvtColor(bgr_frame, camera_frame, cv::COLOR_BGR2RGB);
-		cv::resize(camera_frame, camera_frame, cv::Size(), 4.0, 4.0, cv::INTER_LINEAR);
 
-		engine_frame = engine.run(camera_frame, mesh, engine_parameter);
+        processor.setFrame(camera_frame);
+        processor.processStep();
+        cv::Mat filtered_frame = processor.getResultFrame();
+		std::vector<image_filter::line_pair> detected_pairs = processor.getResultLines();
+
+		image_filter::line_pair detected_track = detected_pairs[0];
+
+		std::cout << detected_track.pair_left.start_point << std::endl;
+
+		
+
+
+
+
+        //cv::cvtColor(bgr_frame, camera_frame, cv::COLOR_BGR2RGB);
+		cv::resize(filtered_frame, filtered_frame, cv::Size(), 4.0, 4.0, cv::INTER_LINEAR);
+
+		engine_frame = engine.run(filtered_frame, mesh, engine_parameter);
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);
 		mImageModel.setImage(QPixmap::fromImage(img));

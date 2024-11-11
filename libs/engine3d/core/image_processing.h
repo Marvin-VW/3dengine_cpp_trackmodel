@@ -13,7 +13,7 @@
 namespace engine_parameter = engine3d::engine::parameter;
 namespace curve_parameter = engine3d::curve_calculator::parameter;
 namespace straight_parameter = engine3d::straight_calculator::parameter;
-
+	
 namespace engine3d::core {
 
 class ImageProcessing: public QThread {

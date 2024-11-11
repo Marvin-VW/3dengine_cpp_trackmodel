@@ -69,7 +69,14 @@
         "*.tcc": "cpp",
         "format": "cpp",
         "functional": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "numbers": "cpp",
+        "source_location": "cpp",
+        "typeindex": "cpp",
+        "type_traits": "cpp",
+        "stdfloat": "cpp",
+        "cinttypes": "cpp",
+        "qpixmap": "cpp"
     },
     "cmake.configureOnOpen": false,
 }
