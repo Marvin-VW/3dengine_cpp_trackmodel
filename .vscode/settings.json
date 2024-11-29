@@ -76,7 +76,14 @@
         "type_traits": "cpp",
         "stdfloat": "cpp",
         "cinttypes": "cpp",
-        "qpixmap": "cpp"
+        "qpixmap": "cpp",
+        "codecvt": "cpp",
+        "csetjmp": "cpp",
+        "csignal": "cpp",
+        "semaphore": "cpp",
+        "shared_mutex": "cpp",
+        "span": "cpp",
+        "strstream": "cpp"
     },
     "cmake.configureOnOpen": false,
 }

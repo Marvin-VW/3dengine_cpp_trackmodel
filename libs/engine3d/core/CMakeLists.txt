@@ -45,6 +45,7 @@ target_link_libraries(${TARGET_NAME}
     engine3d::curve_calculator
     engine3d::straight_calculator
     engine3d::image_filter
+    engine3d::converter
     fmt::fmt
     Boost::system
     Qt::Core

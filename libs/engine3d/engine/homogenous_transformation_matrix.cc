@@ -34,7 +34,9 @@ cv::Mat createHomogeneousTransformationMatrix(const parameter::MatrixParameter& 
 	cv::Mat rotationMatrixYaw(4,4,CV_64F,rotationMatrixYawData);
 	cv::Mat translationMatrix(4,4,CV_64F,translationMatrixData);
 
-	return (translationMatrix * ((rotationMatrixYaw*rotationMatrixPitch)*rotationMatrixRoll));
+	std::cout << "translationMatrixData" << "\n" << translationMatrix << std::endl;
+
+	return (((rotationMatrixYaw*rotationMatrixPitch)*rotationMatrixRoll) * translationMatrix);
 }
 
 }

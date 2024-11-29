@@ -33,6 +33,7 @@ CameraModel::CameraModel(double sensorWidth, double sensorHeight, double focalLe
 
     I_T_C.create(3, 4, CV_64F);
     I_T_C = matrixK * matrixC;
+
 }
 
 void CameraModel::drawAllPoints(const std::vector<triangle>* mesh) {
@@ -45,12 +46,16 @@ void CameraModel::drawAllPoints(const std::vector<triangle>* mesh) {
 
 void CameraModel::drawCameraImagePoint(const cv::Mat& C_point){
 
+        std::cout << "I_T_C" << I_T_C << std::endl;
+
 	const cv::Mat I_point = I_T_C * C_point;
 
 	const int32_t u = I_point.at<double>(0) / I_point.at<double>(2);
 	const int32_t v = I_point.at<double>(1) / I_point.at<double>(2);
 
 	const cv::Point point(u,v);
+
+    std::cout << "Drawing Point at " << u << "," << v << std::endl;
 
 	cv::circle(cameraImage, point, 5, cv::Scalar(255,0,0), 2);
 
@@ -79,7 +84,7 @@ void CameraModel::drawCameraImageLine(const cv::Mat& C_point0, const cv::Mat& C_
 	const cv::Point point0(u0,v0);
 	const cv::Point point1(u1,v1);
 
-	cv::line(cameraImage, point0, point1, cv::Scalar(0,0,255), 1);
+	cv::line(cameraImage, point0, point1, cv::Scalar(255,255,255), 1);
 }
 
 void CameraModel::drawCameraImageArrow(const cv::Mat& C_point0, const cv::Mat& C_point1) {

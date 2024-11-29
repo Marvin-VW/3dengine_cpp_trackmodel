@@ -45,15 +45,30 @@ private:
 public:
 
 	//engine
+	/*
     ADD_PROPERTY(double, cameraSystemTranslationX, CameraSystemTranslationX, 10065.0)
     ADD_PROPERTY(double, cameraSystemTranslationY, CameraSystemTranslationY, 10000.0)
     ADD_PROPERTY(double, cameraSystemTranslationZ, CameraSystemTranslationZ, 10140.0)
-    ADD_PROPERTY(double, cameraSystemRotationRoll, CameraSystemRotationRoll, 2700.0)
-    ADD_PROPERTY(double, cameraSystemRotationPitch, CameraSystemRotationPitch, 0.0)
-    ADD_PROPERTY(double, cameraSystemRotationYaw, CameraSystemRotationYaw, 2700.0)
-    ADD_PROPERTY(double, cubeSystemTranslationX, CubeSystemTranslationX, 11100.0)
+	*/
+	ADD_PROPERTY(double, cameraSystemTranslationX, CameraSystemTranslationX, 10000.0)
+    ADD_PROPERTY(double, cameraSystemTranslationY, CameraSystemTranslationY, 10140.0)
+    ADD_PROPERTY(double, cameraSystemTranslationZ, CameraSystemTranslationZ, 9935.0)
+
+
+    ADD_PROPERTY(double, cameraSystemRotationRoll, CameraSystemRotationRoll, 0.0)
+    ADD_PROPERTY(double, cameraSystemRotationPitch, CameraSystemRotationPitch, 1800.0)
+    ADD_PROPERTY(double, cameraSystemRotationYaw, CameraSystemRotationYaw, 0.0)
+	/*
+    ADD_PROPERTY(double, cubeSystemTranslationX, CubeSystemTranslationX, 10400.0)
     ADD_PROPERTY(double, cubeSystemTranslationY, CubeSystemTranslationY, 9850.0)
     ADD_PROPERTY(double, cubeSystemTranslationZ, CubeSystemTranslationZ, 10000.0)
+	*/
+
+	ADD_PROPERTY(double, cubeSystemTranslationX, CubeSystemTranslationX, 9850.0)
+    ADD_PROPERTY(double, cubeSystemTranslationY, CubeSystemTranslationY, 10000.0)
+    ADD_PROPERTY(double, cubeSystemTranslationZ, CubeSystemTranslationZ, 10400.0)
+
+
     ADD_PROPERTY(double, cubeSystemRotationRoll, CubeSystemRotationRoll, 0.0)
     ADD_PROPERTY(double, cubeSystemRotationPitch, CubeSystemRotationPitch, 0.0)
     ADD_PROPERTY(double, cubeSystemRotationYaw, CubeSystemRotationYaw, 0.0)

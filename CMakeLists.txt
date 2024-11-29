@@ -14,6 +14,7 @@ add_subdirectory(libs/engine3d/engine/)
 add_subdirectory(libs/engine3d/curve_calculator/)
 add_subdirectory(libs/engine3d/straight_calculator/)
 add_subdirectory(libs/engine3d/image_filter/)
+add_subdirectory(libs/engine3d/converter/)
 
 # Apps
 add_subdirectory(apps/engine3d)

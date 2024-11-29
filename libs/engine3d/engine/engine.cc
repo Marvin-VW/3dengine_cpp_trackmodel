@@ -79,17 +79,31 @@ cv::Mat Engine::run(cv::Mat& frame, std::vector<triangle> new_mesh, const engine
             visiable_mesh.push_back(tri);
 
         }
+
+        std::cout << "CameraPoints: " << tri.camera_points[0] << std::endl;
+        std::cout << "CameraPoints: " << tri.camera_points[1] << std::endl;
+        std::cout << "CameraPoints: " << tri.camera_points[2] << std::endl;
+
+
+/*
+        std::cout << "CameraPoints: " << tri.point[0] << std::endl;
+        std::cout << "CameraPoints: " << tri.point[1] << std::endl;
+        std::cout << "CameraPoints: " << tri.point[2] << std::endl;
+
+*/
         
     }
+
+    std::cout << "-----------------------------------------" << std::endl;
 
     //clipping
     std::vector<triangle> clipped_mesh;
     clipped_mesh = clipping.cubeInSpace(&visiable_mesh);
 
-    camera.drawAllLines(&visiable_mesh);
+    camera.drawAllLines(&mesh);
     if (parameter.ui_parameter.showPoints == 1)
     {
-        camera.drawAllPoints(&visiable_mesh);
+        camera.drawAllPoints(&mesh);
     }
 
     if (parameter.ui_parameter.showFaces == 1)

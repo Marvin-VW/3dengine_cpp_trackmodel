@@ -36,7 +36,26 @@ void RenderSystem::create_matrices(const parameter::Parameter parameter)
 
 	// Update homogeneous transformation matrices
 	mCameraModel.V_T_C = HTM::Matrix(parameter.vehicle_to_camera_parameter);
+
+/*
+
+        // Original matrices
+    double matrixK_data[4 * 4] = {
+        -1.83697019872103e-16, -1, 2.298976008042464e-48, 1.194030629168669e-17,
+        -1.83697019872103e-16, 3.374459510989179e-32, -1, 0.14,
+        1, -1.83697019872103e-16, -1.83697019872103e-16, -0.06499999999999997,
+        0, 0, 0, 1
+    };
+
+    cv::Mat matrixK(4, 4, CV_64F, matrixK_data);
+
+
+    mCameraModel.C_T_V = matrixK;
+
+    */
+
 	mCameraModel.C_T_V = mCameraModel.V_T_C.inv();
+    std::cout << mCameraModel.C_T_V << std::endl;
 	mCameraModel.V_T_Cube = HTM::Matrix(parameter.vehicle_to_cube_parameter);
 
 }
