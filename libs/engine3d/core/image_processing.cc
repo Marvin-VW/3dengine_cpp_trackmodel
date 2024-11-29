@@ -44,7 +44,7 @@ void ImageProcessing::run() {
 
     //cv::VideoCapture cap("http://192.168.30.123:8443/normal.py");
 	
-    cv::VideoCapture cap("/Users/vw67pfr/Downloads/output_video 4.avi");
+    cv::VideoCapture cap("");
 
 
     std::vector<int> rows_to_inspect;
@@ -94,31 +94,17 @@ void ImageProcessing::run() {
 
 
 		std::vector<cv::Point> image_points {cv::Point {100,476}, cv::Point {231,334}, cv::Point {218,334}, cv::Point {66,476}};
-        //std::cout << "Detected Point: " << detected_pairs[0].pair_left.start_point << std::endl;
-        //std::cout << "Detected Point: " << detected_pairs[0].pair_left.end_point << std::endl;
+
 
 		convert_to_engine.setBasePoints(image_points);
-
-		
-		
-
-
 
 		
 		
 		engine_frame = engine.run(filtered_frame, mesh, engine_parameter);
 
 
-
-
-
-
         convert_to_engine.computeCubePoints(engine.camera.C_T_V);
         std::vector<cv::Mat> mesh_new = convert_to_engine.getConvertedPoints();
-
-
-    	std::cout << "-----------------------------------------" << std::endl;
-
 
 
 		//engine.camera.drawCameraImagePoint(mesh_new[0]);

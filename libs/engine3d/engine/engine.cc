@@ -83,14 +83,6 @@ cv::Mat Engine::run(cv::Mat& frame, std::vector<triangle> new_mesh, const engine
         std::cout << "CameraPoints: " << tri.camera_points[0] << std::endl;
         std::cout << "CameraPoints: " << tri.camera_points[1] << std::endl;
         std::cout << "CameraPoints: " << tri.camera_points[2] << std::endl;
-
-
-/*
-        std::cout << "CameraPoints: " << tri.point[0] << std::endl;
-        std::cout << "CameraPoints: " << tri.point[1] << std::endl;
-        std::cout << "CameraPoints: " << tri.point[2] << std::endl;
-
-*/
         
     }
 

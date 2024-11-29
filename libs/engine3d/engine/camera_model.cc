@@ -46,16 +46,12 @@ void CameraModel::drawAllPoints(const std::vector<triangle>* mesh) {
 
 void CameraModel::drawCameraImagePoint(const cv::Mat& C_point){
 
-        std::cout << "I_T_C" << I_T_C << std::endl;
-
 	const cv::Mat I_point = I_T_C * C_point;
 
 	const int32_t u = I_point.at<double>(0) / I_point.at<double>(2);
 	const int32_t v = I_point.at<double>(1) / I_point.at<double>(2);
 
 	const cv::Point point(u,v);
-
-    std::cout << "Drawing Point at " << u << "," << v << std::endl;
 
 	cv::circle(cameraImage, point, 5, cv::Scalar(255,0,0), 2);
 
