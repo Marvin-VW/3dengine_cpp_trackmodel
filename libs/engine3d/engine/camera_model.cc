@@ -53,6 +53,8 @@ void CameraModel::drawCameraImagePoint(const cv::Mat& C_point){
 
 	const cv::Point point(u,v);
 
+    //std::cout << u << v << std::endl;
+
 	cv::circle(cameraImage, point, 5, cv::Scalar(255,0,0), 2);
 
 }

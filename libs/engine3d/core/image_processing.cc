@@ -44,14 +44,11 @@ void ImageProcessing::run() {
 
     //cv::VideoCapture cap("http://192.168.30.123:8443/normal.py");
 	
-    cv::VideoCapture cap("");
 
 
     std::vector<int> rows_to_inspect;
-	        
-		for (int i = 480; i >= 300; i -= 1) {
-            rows_to_inspect.push_back(i);
-        }
+
+	rows_to_inspect = {476};
         
     image_filter::CameraProcessor processor(rows_to_inspect);
 
@@ -65,11 +62,12 @@ void ImageProcessing::run() {
 
     while(running) {
 
-		//camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
-
 		getCurveParameters();
 		getEngineParameters();
 		getStraightParameters();
+
+
+		//camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
 
 		if (mParameterModel.getShowStraight()) {
 			mesh = generateStraightTrack(straight_parameter);
@@ -90,28 +88,73 @@ void ImageProcessing::run() {
         cv::Mat filtered_frame = processor.getResultFrame();
 
 
+		engine_frame = engine.run(filtered_frame, mesh, engine_parameter);
+
 		std::vector<image_filter::line_pair> detected_pairs = processor.getResultLines();
 
 
-		std::vector<cv::Point> image_points {cv::Point {100,476}, cv::Point {231,334}, cv::Point {218,334}, cv::Point {66,476}};
+		std::vector<cv::Point> image_points;
+		for (int i = 0; i < detected_pairs.size(); i++) {
+			image_points.push_back(detected_pairs[i].pair_left.start_point);
+			image_points.push_back(detected_pairs[i].pair_left.end_point);
+			image_points.push_back(detected_pairs[i].pair_right.start_point);
+			image_points.push_back(detected_pairs[i].pair_right.end_point);
+		}
+
+
+
+		if (mesh.size() > 1) {
+			std::cout << "(" << mesh[0].camera_points[0] << ")\n";
+        	std::cout << "(" << mesh[1].camera_points[0] << ")\n";
+        	std::cout << "(" << mesh[2].camera_points[0] << ")\n";
+        	std::cout << "(" << mesh[3].camera_points[0] << ")\n";
+		}
+
 
 
 		convert_to_engine.setBasePoints(image_points);
-
-		
-		
-		engine_frame = engine.run(filtered_frame, mesh, engine_parameter);
+        convert_to_engine.computeCubePoints();
+        std::vector<cv::Mat> points_camera_reverse = convert_to_engine.getConvertedPoints();
 
 
-        convert_to_engine.computeCubePoints(engine.camera.C_T_V);
-        std::vector<cv::Mat> mesh_new = convert_to_engine.getConvertedPoints();
+		//links 
+		//abstände
+
+		if (mesh.size() > 1) {
+			// Calculate distances
+			float distance_1 = abs(mesh[2].camera_points[0].at<double>(0) - points_camera_reverse[0].at<double>(0));
+			float distance_2 = abs(mesh[3].camera_points[0].at<double>(0) - points_camera_reverse[1].at<double>(0));
+
+			std::cout << "dif " << distance_1 << " " << distance_2 << "\n";
+
+			// Threshold for distance comparison
+			const float threshold = 0.1;  // Adjust based on your requirements
+
+			if (distance_1 < threshold && distance_2 < threshold) {
+				// Both distances are small -> too far to one side
+				if (distance_1 < distance_2) {
+					std::cout << "Too far right, moving left.\n";
+					mParameterModel.setCubeSystemTranslationX(mParameterModel.getCubeSystemTranslationX() - 0.1);
+				} else if (distance_1 > distance_2) {
+					std::cout << "Too far left, moving right.\n";
+					mParameterModel.setCubeSystemTranslationX(mParameterModel.getCubeSystemTranslationX() + 0.1);
+				}
+			} else {
+				// One distance is smaller -> find the center
+				if (distance_1 < distance_2) {
+					std::cout << "Adjusting slightly right to find center.\n";
+					mParameterModel.setCubeSystemTranslationX(mParameterModel.getCubeSystemTranslationX() + 0.05);
+				} else {
+					std::cout << "Adjusting slightly left to find center.\n";
+					mParameterModel.setCubeSystemTranslationX(mParameterModel.getCubeSystemTranslationX() - 0.05);
+				}
+			}
+		}
 
 
-		//engine.camera.drawCameraImagePoint(mesh_new[0]);
-		//engine.camera.drawCameraImagePoint(mesh_new[1]);
-		//engine.camera.drawCameraImagePoint(mesh_new[2]);
-		//engine.camera.drawCameraImagePoint(mesh_new[3]);
-		engine_frame = engine.run(filtered_frame, mesh, engine_parameter);
+
+
+
 
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);

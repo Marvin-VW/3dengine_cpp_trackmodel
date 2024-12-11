@@ -45,6 +45,7 @@ void CameraProcessor::findWhitePixels() {
     white_pixels.clear();
     detected_lines.clear();
 
+
     for (int row : rows) {
         if (row >= 0 && row < masked_frame.rows) {
             int white_streak_length = 0;
@@ -53,7 +54,7 @@ void CameraProcessor::findWhitePixels() {
             for (int x = 0; x < masked_frame.cols; x++) {
                 uchar pixel_value = masked_frame.at<uchar>(row, x);
 
-                if (pixel_value > 200) {
+                if (pixel_value > 150) {
                     if (white_streak_length == 0) {
                         pot_line.start_point = cv::Point(x, row);
                     }
@@ -96,12 +97,14 @@ void CameraProcessor::drawWhitePixelPositions() {
                     int distance_x = std::abs(line_reference.start_point.x - line_tester.start_point.x);
 
                     if (distance_x > min_pixel_count_track_width && distance_x < max_pixel_count_track_width) {
+
                         cv::line(detected_lanes, line_reference.start_point, line_reference.end_point, cv::Scalar(255, 0, 0), 2);
                         cv::line(detected_lanes, line_tester.start_point, line_tester.end_point, cv::Scalar(255, 0, 0), 2);
 
                         line_pair pair {line_reference, line_tester};
 
                         detected_pairs.push_back(pair);
+                            
 
                         //std::cout << "Distance between streaks (" << i << ") and (" << j << "): " 
                         //          << distance_x << " pixels\n";

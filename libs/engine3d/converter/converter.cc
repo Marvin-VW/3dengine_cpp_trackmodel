@@ -27,7 +27,7 @@ void Converter::setBasePoints(std::vector<cv::Point>& image_points) {
     this->image_points = image_points;
 }
 
-void Converter::computeCubePoints(cv::Mat& C_T_V) {
+void Converter::computeCubePoints() {
 
     engine_points.clear();
 
@@ -70,14 +70,15 @@ void Converter::computeCubePoints(cv::Mat& C_T_V) {
 
         // Reconstruct 3D point
         cv::Mat point3D_homo = matrixC_pseudoInv * (matrixK_inv * point2D);
+
         double simulated_z = 0.14 / point3D_homo.at<double>(1) ;
-        cv::Mat point3D = point3D_homo * simulated_z;
+        cv::Mat point3D = point3D_homo * (-simulated_z);
 
         std::cout << "Reconstructed 3D point:\n" << point3D.t() << std::endl;
 
+        point3D.at<double>(3) = 1;
 
-        
-
+        engine_points.push_back(point3D);
     }
 
 }

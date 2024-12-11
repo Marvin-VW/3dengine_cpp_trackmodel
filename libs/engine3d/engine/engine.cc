@@ -32,7 +32,7 @@ Engine::Engine(int frame_width, int frame_height)
 {
 
     //generate cube mesh
-    mesh = shape.generate_mesh(1, 1, 1);
+    //mesh = shape.generate_mesh(1, 1, 1);
 
 }
 
@@ -41,9 +41,8 @@ Engine::~Engine()
 }
 
 
-cv::Mat Engine::run(cv::Mat& frame, std::vector<triangle> new_mesh, const engine_parameter::Parameter parameter)
+cv::Mat Engine::run(cv::Mat& frame, std::vector<triangle>& mesh, const engine_parameter::Parameter parameter)
 {
-    mesh = new_mesh;
 
     camera.resetCameraImage(frame);
 

@@ -42,7 +42,7 @@ std::vector<triangle> Straight::generate_straight(
     }
 
 
-    if (!dashed_line) {
+    if (dashed_line) {
 
         cv::Mat SecSolidLine_P0 = createPoint(0,            0,                0);  // Bottom right
         cv::Mat SecSolidLine_P1 = createPoint(0,            line_width,                 0); // Bottom left
