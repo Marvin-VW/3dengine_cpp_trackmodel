@@ -44,10 +44,8 @@ void ImageProcessing::run() {
     cv::Mat engine_frame;
 	cv::Mat bgr_frame;
 
-    //cv::VideoCapture cap("http://192.168.30.123:8443/normal.py");
+    cv::VideoCapture cap("http://192.168.30.123:8443/normal.py");
 	
-    cv::VideoCapture cap("/Users/vw67pfr/Downloads/output_video 4.avi");
-
     std::vector<int> rows = {476, 430, 400, 370, 350, 330, 300, 280};
 
     image_filter::CameraProcessor processor;
