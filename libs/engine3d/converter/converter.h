@@ -7,7 +7,7 @@
 
 class Converter {
 public:
-    Converter(cv::Mat& I_T_C);
+    Converter();
     void setBasePoints(std::vector<cv::Point>& image_points);
     void computeCubePoints();
     std::vector<cv::Mat> getConvertedPoints();

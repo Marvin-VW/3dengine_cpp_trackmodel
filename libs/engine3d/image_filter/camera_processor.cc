@@ -3,8 +3,16 @@
 
 namespace engine3d::image_filter {
 
-CameraProcessor::CameraProcessor(const std::vector<int>& rows) 
-    : rows(rows) {}
+
+std::vector<line_pair> CameraProcessor::process_Image(const cv::Mat& frame, std::vector<int> rows) {
+    setFrame(frame);
+    maskFrame(rows);
+    findWhitePixels(rows);
+    findPixelPairs();
+
+    return detected_pairs;
+}
+
 
 void CameraProcessor::setFrame(const cv::Mat& new_frame) {
     frame = new_frame;
@@ -13,14 +21,8 @@ void CameraProcessor::setFrame(const cv::Mat& new_frame) {
     detected_lanes = cv::Mat(frame.rows, frame.cols, CV_8UC3, cv::Scalar(0, 0, 0));
 }
 
-void CameraProcessor::processStep() {
-    maskFrame();
-    findWhitePixels();
-    //displayFrame();
-    drawWhitePixelPositions();
-}
 
-void CameraProcessor::maskFrame() {
+void CameraProcessor::maskFrame(std::vector<int> rows) {
     cv::Scalar lower_white(150, 150, 150);
     cv::Scalar upper_white(255, 255, 255);
 
@@ -41,7 +43,7 @@ void CameraProcessor::maskFrame() {
     }
 }
 
-void CameraProcessor::findWhitePixels() {
+void CameraProcessor::findWhitePixels(std::vector<int> rows) {
     white_pixels.clear();
     detected_lines.clear();
 
@@ -76,15 +78,9 @@ void CameraProcessor::findWhitePixels() {
     }
 }
 
-void CameraProcessor::drawWhitePixelPositions() {
+void CameraProcessor::findPixelPairs() {
 
     detected_pairs.clear();
-
-    /*
-    std::cout << "White pixel streaks in rows ";
-    for (int row : rows) std::cout << row << " ";
-    std::cout << ":\n";
-    */
 
     for (size_t i = 0; i < detected_lines.size(); ++i) {
         const auto& line_reference = detected_lines[i];
@@ -104,17 +100,10 @@ void CameraProcessor::drawWhitePixelPositions() {
                         line_pair pair {line_reference, line_tester};
 
                         detected_pairs.push_back(pair);
-                            
-
-                        //std::cout << "Distance between streaks (" << i << ") and (" << j << "): " 
-                        //          << distance_x << " pixels\n";
                     }
                 }
             }
         }
-
-        //std::cout << "Streak starting at (" << line_reference.start_point.x << ", " << line_reference.start_point.y 
-        //          << ") with length " << line_reference.length << std::endl;
     }
 }
 

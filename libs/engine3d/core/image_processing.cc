@@ -4,6 +4,7 @@
 #include "engine3d/straight_calculator/generator.cc"
 #include "engine3d/image_filter/camera_processor.h"
 #include "engine3d/converter/converter.h"
+#include "engine3d/trackmodel/trackmodel.h"
 
 #include <engine3d/engine/engine.h>
 
@@ -16,6 +17,7 @@
 namespace engine_parameter = engine3d::engine::parameter;
 namespace curve_parameter = engine3d::curve_calculator::parameter;
 namespace image_filter = engine3d::image_filter;
+namespace trackmodel = engine3d::trackmodel;
 
 namespace engine3d::core {
 
@@ -44,20 +46,15 @@ void ImageProcessing::run() {
 
     //cv::VideoCapture cap("http://192.168.30.123:8443/normal.py");
 	
+    cv::VideoCapture cap("/Users/vw67pfr/Downloads/output_video 4.avi");
 
+    std::vector<int> rows = {476, 430, 400, 370, 350, 330, 300, 280};
 
-    std::vector<int> rows_to_inspect;
-
-	rows_to_inspect = {476};
-        
-    image_filter::CameraProcessor processor(rows_to_inspect);
+    image_filter::CameraProcessor processor;
+	engine3d::engine::Engine engine(frame_width, frame_height);
+	trackmodel::Trackmodel trackmodel(mParameterModel);
 
 	std::vector<triangle> mesh;
-
-	engine3d::engine::Engine engine(frame_width, frame_height);
-
-	Converter convert_to_engine(engine.camera.I_T_C);
-
     bool running = true;
 
     while(running) {
@@ -65,9 +62,6 @@ void ImageProcessing::run() {
 		getCurveParameters();
 		getEngineParameters();
 		getStraightParameters();
-
-
-		//camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
 
 		if (mParameterModel.getShowStraight()) {
 			mesh = generateStraightTrack(straight_parameter);
@@ -83,79 +77,11 @@ void ImageProcessing::run() {
 
 		cap >> camera_frame;
 
-        processor.setFrame(camera_frame);
-        processor.processStep();
+        std::vector<image_filter::line_pair> detected_pairs = processor.process_Image(camera_frame, rows);
         cv::Mat filtered_frame = processor.getResultFrame();
 
-
 		engine_frame = engine.run(filtered_frame, mesh, engine_parameter);
-
-		std::vector<image_filter::line_pair> detected_pairs = processor.getResultLines();
-
-
-		std::vector<cv::Point> image_points;
-		for (int i = 0; i < detected_pairs.size(); i++) {
-			image_points.push_back(detected_pairs[i].pair_left.start_point);
-			image_points.push_back(detected_pairs[i].pair_left.end_point);
-			image_points.push_back(detected_pairs[i].pair_right.start_point);
-			image_points.push_back(detected_pairs[i].pair_right.end_point);
-		}
-
-
-
-		if (mesh.size() > 1) {
-			std::cout << "(" << mesh[0].camera_points[0] << ")\n";
-        	std::cout << "(" << mesh[1].camera_points[0] << ")\n";
-        	std::cout << "(" << mesh[2].camera_points[0] << ")\n";
-        	std::cout << "(" << mesh[3].camera_points[0] << ")\n";
-		}
-
-
-
-		convert_to_engine.setBasePoints(image_points);
-        convert_to_engine.computeCubePoints();
-        std::vector<cv::Mat> points_camera_reverse = convert_to_engine.getConvertedPoints();
-
-
-		//links 
-		//abstände
-
-		if (mesh.size() > 1) {
-			// Calculate distances
-			float distance_1 = abs(mesh[2].camera_points[0].at<double>(0) - points_camera_reverse[0].at<double>(0));
-			float distance_2 = abs(mesh[3].camera_points[0].at<double>(0) - points_camera_reverse[1].at<double>(0));
-
-			std::cout << "dif " << distance_1 << " " << distance_2 << "\n";
-
-			// Threshold for distance comparison
-			const float threshold = 0.1;  // Adjust based on your requirements
-
-			if (distance_1 < threshold && distance_2 < threshold) {
-				// Both distances are small -> too far to one side
-				if (distance_1 < distance_2) {
-					std::cout << "Too far right, moving left.\n";
-					mParameterModel.setCubeSystemTranslationX(mParameterModel.getCubeSystemTranslationX() - 0.1);
-				} else if (distance_1 > distance_2) {
-					std::cout << "Too far left, moving right.\n";
-					mParameterModel.setCubeSystemTranslationX(mParameterModel.getCubeSystemTranslationX() + 0.1);
-				}
-			} else {
-				// One distance is smaller -> find the center
-				if (distance_1 < distance_2) {
-					std::cout << "Adjusting slightly right to find center.\n";
-					mParameterModel.setCubeSystemTranslationX(mParameterModel.getCubeSystemTranslationX() + 0.05);
-				} else {
-					std::cout << "Adjusting slightly left to find center.\n";
-					mParameterModel.setCubeSystemTranslationX(mParameterModel.getCubeSystemTranslationX() - 0.05);
-				}
-			}
-		}
-
-
-
-
-
-
+		trackmodel.trackmodel_position(mesh, detected_pairs);
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);
 		mImageModel.setImage(QPixmap::fromImage(img));

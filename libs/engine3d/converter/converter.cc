@@ -1,6 +1,6 @@
 #include "converter.h"
 
-Converter::Converter(cv::Mat& I_T_C) : I_T_C(I_T_C) {
+Converter::Converter() {
 }
 
 
