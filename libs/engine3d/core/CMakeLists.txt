@@ -45,7 +45,7 @@ target_link_libraries(${TARGET_NAME}
     engine3d::curve_calculator
     engine3d::straight_calculator
     engine3d::image_filter
-    engine3d::converter
+
     engine3d::trackmodel
     fmt::fmt
     Boost::system

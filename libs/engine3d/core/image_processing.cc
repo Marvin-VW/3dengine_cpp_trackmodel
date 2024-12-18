@@ -3,7 +3,6 @@
 #include "engine3d/curve_calculator/generator.cc"
 #include "engine3d/straight_calculator/generator.cc"
 #include "engine3d/image_filter/camera_processor.h"
-#include "engine3d/converter/converter.h"
 #include "engine3d/trackmodel/trackmodel.h"
 
 #include <engine3d/engine/engine.h>

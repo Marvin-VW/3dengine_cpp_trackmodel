@@ -40,11 +40,6 @@ void Trackmodel::trackmodel_position(
 		//abstände
 
 
-
-
-
-
-
 		//filtern wo die linien sein könnten (5 kontrollreihen und 3 ausgangsreihen)
 
 		//wir nehmen uns die ausgangsreihen und legen ein spurmodell an ->vorher sollte kontrolliert werden ob der abstand ungefähr passt (mit der richtigen verschiebung)
