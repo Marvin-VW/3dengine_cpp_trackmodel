@@ -2,6 +2,8 @@
 #include "image_processing.h"
 #include "engine3d/curve_calculator/generator.cc"
 #include "engine3d/straight_calculator/generator.cc"
+#include "engine3d/image_filter/camera_processor.h"
+#include "engine3d/trackmodel/trackmodel.h"
 
 #include <engine3d/engine/engine.h>
 
@@ -13,6 +15,8 @@
 
 namespace engine_parameter = engine3d::engine::parameter;
 namespace curve_parameter = engine3d::curve_calculator::parameter;
+namespace image_filter = engine3d::image_filter;
+namespace trackmodel = engine3d::trackmodel;
 
 namespace engine3d::core {
 
@@ -32,21 +36,25 @@ ImageProcessing::~ImageProcessing() {}
 
 void ImageProcessing::run() {
 
-	int frame_width = 640*4;
-	int frame_height = 480*4;
+	int frame_width = 640;
+	int frame_height = 480;
 
 	cv::Mat camera_frame;
     cv::Mat engine_frame;
+	cv::Mat bgr_frame;
+
+    cv::VideoCapture cap("http://192.168.30.123:8443/normal.py");
+	
+    std::vector<int> rows = {476, 430, 400, 370, 350, 330, 300, 280};
+
+    image_filter::CameraProcessor processor;
+	engine3d::engine::Engine engine(frame_width, frame_height);
+	trackmodel::Trackmodel trackmodel(mParameterModel);
 
 	std::vector<triangle> mesh;
-
-	engine3d::engine::Engine engine(frame_width, frame_height);
-
     bool running = true;
 
     while(running) {
-
-		camera_frame = cv::Mat(frame_height, frame_width, CV_8UC3, cv::Scalar(255,255,255));
 
 		getCurveParameters();
 		getEngineParameters();
@@ -64,7 +72,13 @@ void ImageProcessing::run() {
 			mesh.clear();
 		}
 
-		engine_frame = engine.run(camera_frame, mesh, engine_parameter);
+		cap >> camera_frame;
+
+        std::vector<image_filter::line_pair> detected_pairs = processor.process_Image(camera_frame, rows);
+        cv::Mat filtered_frame = processor.getResultFrame();
+
+		engine_frame = engine.run(filtered_frame, mesh, engine_parameter);
+		trackmodel.trackmodel_position(mesh, detected_pairs);
 
 		QImage img((uchar*)engine_frame.data, engine_frame.cols, engine_frame.rows, QImage::Format_RGB888);
 		mImageModel.setImage(QPixmap::fromImage(img));

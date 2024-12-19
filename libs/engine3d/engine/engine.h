@@ -25,7 +25,7 @@ public:
     Engine(int frame_width, int frame_height);
     ~Engine();
 
-	cv::Mat run(cv::Mat& frame, std::vector<triangle> new_mesh, const engine_parameter::Parameter parameter);
+	cv::Mat run(cv::Mat& frame, std::vector<triangle>& mesh, const engine_parameter::Parameter parameter);
     CameraModel camera;
     RenderSystem renderer;
 
@@ -37,7 +37,6 @@ private:
     Color color;
     FpsCounter fps;
 
-    std::vector<triangle> mesh;
     std::vector<triangle> visible_mesh;
     std::vector<triangle> clipped_mesh;
 
